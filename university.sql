@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: university
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.32
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -95,14 +95,14 @@ DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department` (
   `idDepartment` int NOT NULL AUTO_INCREMENT,
   `Factuly_idFactuly` int NOT NULL,
-  `Manager_idProfessor` decimal(9,0) NOT NULL,
+  `Manager_idProfessor` decimal(9,0) DEFAULT NULL,
   `department_name` varchar(45) NOT NULL,
-  PRIMARY KEY (`idDepartment`,`Factuly_idFactuly`,`Manager_idProfessor`),
+  PRIMARY KEY (`idDepartment`),
   KEY `fk_Department_Factuly1_idx` (`Factuly_idFactuly`),
   KEY `fk_Department_Professor1_idx` (`Manager_idProfessor`),
   CONSTRAINT `fk_Department_Factuly1` FOREIGN KEY (`Factuly_idFactuly`) REFERENCES `factuly` (`idFactuly`),
   CONSTRAINT `fk_Department_Professor1` FOREIGN KEY (`Manager_idProfessor`) REFERENCES `professor` (`idProfessor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,6 +111,7 @@ CREATE TABLE `department` (
 
 LOCK TABLES `department` WRITE;
 /*!40000 ALTER TABLE `department` DISABLE KEYS */;
+INSERT INTO `department` VALUES (1,1,NULL,'Electrical Engineering'),(2,1,NULL,'Mechanical Engineering'),(3,1,NULL,'Civil Engineering'),(4,2,NULL,'Mathematics'),(5,2,NULL,'Physics'),(6,2,NULL,'Chemistry'),(7,3,NULL,'English'),(8,3,NULL,'Persian'),(9,3,NULL,'History'),(10,4,NULL,'Surgery');
 /*!40000 ALTER TABLE `department` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,7 +151,7 @@ CREATE TABLE `factuly` (
   `city` varchar(45) DEFAULT NULL,
   `Factuly_name` varchar(45) NOT NULL,
   PRIMARY KEY (`idFactuly`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,6 +160,7 @@ CREATE TABLE `factuly` (
 
 LOCK TABLES `factuly` WRITE;
 /*!40000 ALTER TABLE `factuly` DISABLE KEYS */;
+INSERT INTO `factuly` VALUES (1,'Mashhad','Engineering'),(2,'Mashhad','Science'),(3,'Mashhad','Humanities'),(4,'Mashhad','Medicine'),(5,'Mashhad','Law'),(6,'Tehran','Engineering'),(7,'Tehran','Science'),(8,'Tehran','Humanities'),(9,'Tehran','Medicine'),(10,'Tehran','Law');
 /*!40000 ALTER TABLE `factuly` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -369,6 +371,7 @@ CREATE TABLE `professor` (
   `degree` varchar(45) NOT NULL,
   `entry_date` year NOT NULL,
   `avg_mark` int DEFAULT NULL,
+  `password` varchar(45) NOT NULL,
   PRIMARY KEY (`idProfessor`,`Department_idDepartment`),
   KEY `fk_Professor_Department1_idx` (`Department_idDepartment`),
   CONSTRAINT `fk_Professor_Department1` FOREIGN KEY (`Department_idDepartment`) REFERENCES `department` (`idDepartment`)
@@ -498,6 +501,7 @@ CREATE TABLE `student` (
   `entry_date` year NOT NULL,
   `student_agverageGrades` int DEFAULT '0',
   `student_balance` int DEFAULT '0',
+  `student_password` varchar(45) NOT NULL,
   PRIMARY KEY (`ssn`),
   KEY `fk_Student_Major1_idx` (`Major_idMajor`),
   CONSTRAINT `fk_Student_Major1` FOREIGN KEY (`Major_idMajor`) REFERENCES `major` (`idMajor`)
@@ -940,4 +944,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 18:08:57
+-- Dump completed on 2023-07-01 18:54:44
