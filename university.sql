@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: mydb
+-- Host: 127.0.0.1    Database: university
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.32
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -368,6 +368,7 @@ CREATE TABLE `professor` (
   `phone_number` int DEFAULT NULL,
   `degree` varchar(45) NOT NULL,
   `entry_date` year NOT NULL,
+  `avg_mark` int DEFAULT NULL,
   PRIMARY KEY (`idProfessor`,`Department_idDepartment`),
   KEY `fk_Professor_Department1_idx` (`Department_idDepartment`),
   CONSTRAINT `fk_Professor_Department1` FOREIGN KEY (`Department_idDepartment`) REFERENCES `department` (`idDepartment`)
@@ -441,6 +442,7 @@ CREATE TABLE `section` (
   `Professor_idProfessor` decimal(9,0) NOT NULL,
   `exam_date` date DEFAULT NULL,
   `Section_capacity` int NOT NULL,
+  `exam_time` time DEFAULT NULL,
   PRIMARY KEY (`idSection`,`Term_idTerm`),
   KEY `fk_Section_Term1_idx` (`Term_idTerm`),
   KEY `fk_Section_Course1_idx` (`Course_idCourse`),
@@ -495,6 +497,7 @@ CREATE TABLE `student` (
   `student_address` varchar(45) DEFAULT NULL,
   `entry_date` year NOT NULL,
   `student_agverageGrades` int DEFAULT '0',
+  `student_balance` int DEFAULT '0',
   PRIMARY KEY (`ssn`,`Major_idMajor`),
   KEY `fk_Student_Major1_idx` (`Major_idMajor`),
   CONSTRAINT `fk_Student_Major1` FOREIGN KEY (`Major_idMajor`) REFERENCES `major` (`idMajor`)
@@ -670,11 +673,11 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = @saved_cs_client;
 
 --
--- Dumping events for database 'mydb'
+-- Dumping events for database 'university'
 --
 
 --
--- Dumping routines for database 'mydb'
+-- Dumping routines for database 'university'
 --
 
 --
@@ -779,7 +782,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `professors_calendar` AS select `p`.`idProfessor` AS `idProfessor`,`p`.`name` AS `name`,`s`.`idSection` AS `idSection`,`d`.`iddates` AS `iddates`,`d`.`roomno` AS `roomno`,`d`.`day_of_week` AS `day_of_week`,`d`.`time` AS `time` from ((`professor` `p` join `section` `s`) join `dates` `d`) where ((`p`.`idProfessor` = `s`.`Professor_idProfessor`) and (`s`.`idSection` = `d`.`Section_idSection`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -851,7 +854,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `top_average_section_marks_in_term` AS select `t`.`idTerm` AS `idTerm`,`s`.`idSection` AS `idSection`,`shs`.`Student_ssn` AS `Student_ssn`,avg(`shs`.`student_mark`) AS `AVG(shs.student_mark)` from ((`term` `t` join `section` `s`) join `student_has_section` `shs`) where ((`t`.`idTerm` = `s`.`Term_idTerm`) and (`s`.`idSection` = `shs`.`Section_idSection`)) group by `t`.`idTerm`,`s`.`idSection`,`shs`.`Student_ssn` order by avg(`shs`.`student_mark`) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -866,4 +869,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 15:39:44
+-- Dump completed on 2023-07-01 16:17:41
