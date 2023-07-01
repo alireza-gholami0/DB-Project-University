@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: university
 -- ------------------------------------------------------
--- Server version	8.0.32
+-- Server version	8.0.33
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -655,6 +655,14 @@ UPDATE student SET
 tudent_total_units = student_total_units + (SELECT course_unit FROM course WHERE idCourse = (SELECT Course_idCourse FROM section WHERE idSection = NEW.Section_idSection)) 
 WHERE ssn = NEW.Student_ssn;
 END IF;
+
+IF NEW.is_signed = 1 AND Old.is_signed = 0 THEN
+update student set
+ student_agverageGrades = ( select sum(student_mark*unit)/sum(unit)
+ from student_has_section ss , course c , section s
+ where ss.Student_ssn = new.Student_ssn and ss.Section_idSection  = s.idSection and s.idSection = c.idCourse and ss.is_signed = 1);
+
+end if	;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -932,4 +940,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 17:49:14
+-- Dump completed on 2023-07-01 18:08:57
