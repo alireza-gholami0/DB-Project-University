@@ -650,9 +650,11 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `student_has_section_AFTER_UPDATE` AFTER UPDATE ON `student_has_section` FOR EACH ROW BEGIN
+IF NEW.is_signed = 1 AND OLD.is_signed = 0 THEN
 UPDATE student SET 
 tudent_total_units = student_total_units + (SELECT course_unit FROM course WHERE idCourse = (SELECT Course_idCourse FROM section WHERE idSection = NEW.Section_idSection)) 
 WHERE ssn = NEW.Student_ssn;
+END IF;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -930,4 +932,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 17:31:03
+-- Dump completed on 2023-07-01 17:49:14
