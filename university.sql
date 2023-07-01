@@ -604,6 +604,7 @@ CREATE TABLE `student_has_section` (
   `student_mark` int DEFAULT NULL,
   `is_passed` tinyint DEFAULT NULL,
   `is_removerd` tinyint DEFAULT '0',
+  `is_sighned` tinyint DEFAULT '0',
   PRIMARY KEY (`Student_ssn`,`Section_idSection`),
   KEY `fk_Student_has_Section_Section1_idx` (`Section_idSection`),
   KEY `fk_Student_has_Section_Student1_idx` (`Student_ssn`),
@@ -891,4 +892,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 16:59:45
+-- Dump completed on 2023-07-01 17:27:32
