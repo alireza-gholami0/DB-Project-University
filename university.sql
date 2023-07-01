@@ -498,7 +498,7 @@ CREATE TABLE `student` (
   `entry_date` year NOT NULL,
   `student_agverageGrades` int DEFAULT '0',
   `student_balance` int DEFAULT '0',
-  PRIMARY KEY (`ssn`,`Major_idMajor`),
+  PRIMARY KEY (`ssn`),
   KEY `fk_Student_Major1_idx` (`Major_idMajor`),
   CONSTRAINT `fk_Student_Major1` FOREIGN KEY (`Major_idMajor`) REFERENCES `major` (`idMajor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -522,13 +522,12 @@ DROP TABLE IF EXISTS `student_has_exam`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student_has_exam` (
   `Student_ssn` decimal(9,0) NOT NULL,
-  `Student_Major_idMajor` int NOT NULL,
   `Exam_idExam` int NOT NULL,
-  PRIMARY KEY (`Student_ssn`,`Student_Major_idMajor`,`Exam_idExam`),
+  PRIMARY KEY (`Student_ssn`,`Exam_idExam`),
   KEY `fk_Student_has_Exam_Exam1_idx` (`Exam_idExam`),
-  KEY `fk_Student_has_Exam_Student1_idx` (`Student_ssn`,`Student_Major_idMajor`),
+  KEY `fk_Student_has_Exam_Student1_idx` (`Student_ssn`),
   CONSTRAINT `fk_Student_has_Exam_Exam1` FOREIGN KEY (`Exam_idExam`) REFERENCES `exam` (`idExam`),
-  CONSTRAINT `fk_Student_has_Exam_Student1` FOREIGN KEY (`Student_ssn`, `Student_Major_idMajor`) REFERENCES `student` (`ssn`, `Major_idMajor`)
+  CONSTRAINT `fk_Student_has_Exam_Student1` FOREIGN KEY (`Student_ssn`) REFERENCES `student` (`ssn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -869,4 +868,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 16:17:41
+-- Dump completed on 2023-07-01 16:22:05
