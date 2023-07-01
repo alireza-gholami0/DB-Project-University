@@ -687,7 +687,7 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `show_info` AS select `s`.`student_name` AS `student_name`,`s`.`ssn` AS `ssn`,`c`.`idCourse` AS `idCourse`,`dt`.`roomno` AS `roomno`,`p`.`name` AS `name`,`f`.`Factuly_name` AS `Factuly_name`,`c`.`Course_name` AS `Course_name` from (((((((`student` `s` join `student_has_section` `ss`) join `section` `sc`) join `course` `c`) join `dates` `dt`) join `professor` `p`) join `factuly` `f`) join `department` `d`) where ((`s`.`ssn` = `ss`.`Student_ssn`) and (`ss`.`Section_idSection` = `sc`.`idSection`) and (`sc`.`Course_idCourse` = `c`.`idCourse`) and (`c`.`Department_idDepartment` = `d`.`idDepartment`) and (`d`.`Factuly_idFactuly` = `f`.`idFactuly`) and (`sc`.`Professor_idProfessor` = `p`.`idProfessor`) and (`dt`.`Section_idSection` = `sc`.`idSection`)) */;
+/*!50001 VIEW `show_info` AS select `s`.`student_name` AS `student_name`,`s`.`ssn` AS `ssn`,`c`.`idCourse` AS `idCourse`,`dt`.`roomno` AS `roomno`,`p`.`name` AS `name`,`f`.`Factuly_name` AS `Factuly_name`,`c`.`Course_name` AS `Course_name` from ((((((((`student` `s` join `student_has_section` `ss`) join `section` `sc`) join `course` `c`) join `dates` `dt`) join `professor` `p`) join `factuly` `f`) join `department` `d`) join `term` `t`) where ((`s`.`ssn` = `ss`.`Student_ssn`) and (`ss`.`Section_idSection` = `sc`.`idSection`) and (`sc`.`Course_idCourse` = `c`.`idCourse`) and (`c`.`Department_idDepartment` = `d`.`idDepartment`) and (`d`.`Factuly_idFactuly` = `f`.`idFactuly`) and (`sc`.`Professor_idProfessor` = `p`.`idProfessor`) and (`dt`.`Section_idSection` = `sc`.`idSection`) and (`t`.`idTerm` = `sc`.`Term_idTerm`) and (`t`.`is_current` = 1)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -701,4 +701,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 13:38:11
+-- Dump completed on 2023-07-01 13:50:24
