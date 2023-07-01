@@ -402,6 +402,24 @@ LOCK TABLES `section` WRITE;
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `show_info`
+--
+
+DROP TABLE IF EXISTS `show_info`;
+/*!50001 DROP VIEW IF EXISTS `show_info`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `show_info` AS SELECT 
+ 1 AS `student_name`,
+ 1 AS `ssn`,
+ 1 AS `idCourse`,
+ 1 AS `roomno`,
+ 1 AS `name`,
+ 1 AS `Factuly_name`,
+ 1 AS `Course_name`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `student`
 --
 
@@ -655,6 +673,24 @@ UNLOCK TABLES;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `show_info`
+--
+
+/*!50001 DROP VIEW IF EXISTS `show_info`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `show_info` AS select `s`.`student_name` AS `student_name`,`s`.`ssn` AS `ssn`,`c`.`idCourse` AS `idCourse`,`dt`.`roomno` AS `roomno`,`p`.`name` AS `name`,`f`.`Factuly_name` AS `Factuly_name`,`c`.`Course_name` AS `Course_name` from (((((((`student` `s` join `student_has_section` `ss`) join `section` `sc`) join `course` `c`) join `dates` `dt`) join `professor` `p`) join `factuly` `f`) join `department` `d`) where ((`s`.`ssn` = `ss`.`Student_ssn`) and (`ss`.`Section_idSection` = `sc`.`idSection`) and (`sc`.`Course_idCourse` = `c`.`idCourse`) and (`c`.`Department_idDepartment` = `d`.`idDepartment`) and (`d`.`Factuly_idFactuly` = `f`.`idFactuly`) and (`sc`.`Professor_idProfessor` = `p`.`idProfessor`) and (`dt`.`Section_idSection` = `sc`.`idSection`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -665,4 +701,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 12:46:27
+-- Dump completed on 2023-07-01 13:38:11
