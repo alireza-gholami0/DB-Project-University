@@ -566,6 +566,29 @@ LOCK TABLES `student_has_foodschedule` WRITE;
 /*!40000 ALTER TABLE `student_has_foodschedule` DISABLE KEYS */;
 /*!40000 ALTER TABLE `student_has_foodschedule` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `student_has_foodschedule_AFTER_INSERT` AFTER INSERT ON `student_has_foodschedule` FOR EACH ROW BEGIN
+  DECLARE food_price INT;
+  SELECT Food_price INTO food_price FROM food WHERE idFood = (SELECT Food_idFood FROM foodschedule WHERE idFoodSchedule = NEW.FoodSchedule_idFoodSchedule);
+  IF food_price <= (SELECT student_balance FROM student WHERE ssn = NEW.Student_ssn) THEN
+    UPDATE student SET student_balance = student_balance - food_price WHERE ssn = NEW.Student_ssn;
+  ELSE
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient balance';
+  END IF;
+  end */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `student_has_section`
@@ -670,6 +693,14 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `Student_ssn`,
  1 AS `AVG(shs.student_mark)`*/;
 SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping events for database 'university'
+--
+
+--
+-- Dumping routines for database 'university'
+--
 
 --
 -- Final view structure for view `a_students`
@@ -860,4 +891,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 16:53:24
+-- Dump completed on 2023-07-01 16:59:45
