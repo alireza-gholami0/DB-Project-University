@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: university
 -- ------------------------------------------------------
--- Server version	8.0.32
+-- Server version	8.0.33
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -95,13 +95,13 @@ DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department` (
   `idDepartment` int NOT NULL AUTO_INCREMENT,
   `Factuly_idFactuly` int NOT NULL,
-  `Manager_idProfessor` decimal(9,0) DEFAULT NULL,
+  `Manager_idProfessor` int DEFAULT NULL,
   `department_name` varchar(45) NOT NULL,
   PRIMARY KEY (`idDepartment`),
   KEY `fk_Department_Factuly1_idx` (`Factuly_idFactuly`),
-  KEY `fk_Department_Professor1_idx` (`Manager_idProfessor`),
+  KEY `fk_department_professor1_idx` (`Manager_idProfessor`),
   CONSTRAINT `fk_Department_Factuly1` FOREIGN KEY (`Factuly_idFactuly`) REFERENCES `factuly` (`idFactuly`),
-  CONSTRAINT `fk_Department_Professor1` FOREIGN KEY (`Manager_idProfessor`) REFERENCES `professor` (`idProfessor`)
+  CONSTRAINT `fk_department_professor1` FOREIGN KEY (`Manager_idProfessor`) REFERENCES `professor` (`idProfessor`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -289,7 +289,7 @@ DROP TABLE IF EXISTS `meet`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `meet` (
-  `Student_ssn` decimal(9,0) NOT NULL,
+  `Student_ssn` int NOT NULL,
   `Section_idSection` int NOT NULL,
   PRIMARY KEY (`Student_ssn`,`Section_idSection`),
   KEY `fk_Student_has_Section1_Student1_idx` (`Student_ssn`),
@@ -317,14 +317,13 @@ DROP TABLE IF EXISTS `notificatoin`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `notificatoin` (
   `idNotificatoin` int NOT NULL AUTO_INCREMENT,
-  `Professor_idProfessor` decimal(9,0) NOT NULL,
+  `Professor_idProfessor` int NOT NULL,
   `Section_idSection` int NOT NULL,
   `text` varchar(45) NOT NULL,
   `date` date DEFAULT NULL,
   PRIMARY KEY (`idNotificatoin`),
   KEY `fk_Notificatoin_Professor1_idx` (`Professor_idProfessor`),
   KEY `fk_Notificatoin_Section1_idx` (`Section_idSection`),
-  CONSTRAINT `fk_Notificatoin_Professor1` FOREIGN KEY (`Professor_idProfessor`) REFERENCES `professor` (`idProfessor`),
   CONSTRAINT `fk_Notificatoin_Section1` FOREIGN KEY (`Section_idSection`) REFERENCES `section` (`idSection`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -361,7 +360,7 @@ DROP TABLE IF EXISTS `professor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `professor` (
-  `idProfessor` decimal(9,0) NOT NULL,
+  `idProfessor` int NOT NULL AUTO_INCREMENT,
   `Department_idDepartment` int NOT NULL,
   `address` varchar(45) DEFAULT NULL,
   `office` int DEFAULT NULL,
@@ -375,7 +374,7 @@ CREATE TABLE `professor` (
   PRIMARY KEY (`idProfessor`,`Department_idDepartment`),
   KEY `fk_Professor_Department1_idx` (`Department_idDepartment`),
   CONSTRAINT `fk_Professor_Department1` FOREIGN KEY (`Department_idDepartment`) REFERENCES `department` (`idDepartment`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -384,6 +383,7 @@ CREATE TABLE `professor` (
 
 LOCK TABLES `professor` WRITE;
 /*!40000 ALTER TABLE `professor` DISABLE KEYS */;
+INSERT INTO `professor` VALUES (1,1,'123 Main St',101,'john.smith@university.edu','John Smith',5551234,'PhD',2020,NULL,'password123'),(2,2,'456 Elm St',202,'jane.doe@university.edu','Jane Doe',5555678,'MS',2018,NULL,'password456'),(3,3,'789 Oak St',303,'bob.johnson@university.edu','Bob Johnson',5559012,'PhD',2021,NULL,'password789'),(4,4,'321 Cherry St',404,'sarah.lee@university.edu','Sarah Lee',5553456,'PhD',2019,NULL,'password101'),(5,5,'654 Pine St',505,'david.kim@university.edu','David Kim',5557890,'MS',2017,NULL,'password202'),(6,6,'987 Maple St',606,'mary.park@university.edu','Mary Park',5552345,'PhD',2022,NULL,'password303'),(7,7,'123 Oak St',707,'john.doe@university.edu','John Doe',5559876,'PhD',2020,NULL,'password404'),(8,8,'456 Elm St',808,'jane.smith@university.edu','Jane Smith',5554321,'MS',2018,NULL,'password505'),(9,9,'789 Pine St',909,'bob.lee@university.edu','Bob Lee',5556789,'PhD',2021,NULL,'password606'),(10,10,'321 Cherry St',1010,'sarah.kim@university.edu','Sarah Kim',5559012,'PhD',2019,NULL,'password707'),(11,5,'654 Pine St',505,'david.kim@university.edu','David Kim',5557890,'MS',2017,NULL,'password202'),(12,6,'987 Maple St',606,'alice.park@university.edu','Alice Park',5552345,'PhD',2022,NULL,'password303'),(13,7,'123 Oak St',707,'james.lee@university.edu','James Lee',5559876,'PhD',2020,NULL,'password404'),(14,8,'456 Elm St',808,'emily.chung@university.edu','Emily Chung',5554321,'MS',2018,NULL,'password505'),(15,9,'789 Pine St',909,'william.kim@university.edu','William Kim',5556789,'PhD',2021,NULL,'password606'),(16,1,'321 Cherry St',1010,'grace.lee@university.edu','Grace Lee',5559012,'PhD',2019,NULL,'password707'),(17,4,'654 Maple St',1111,'daniel.park@university.edu','Daniel Park',5553456,'PhD',2022,NULL,'password808'),(18,2,'987 Oak St',1212,'sophie.kim@university.edu','Sophie Kim',5557890,'MS',2017,NULL,'password909'),(19,3,'456 Oak St',202,'asmith@email.com','Amy Smith',5555678,'MS',2015,NULL,'password456'),(20,5,'789 Walnut St',303,'rjones@email.com','Robert Jones',5559012,'PhD',2005,NULL,'password789'),(21,3,'321 Maple St',404,'klee@email.com','Karen Lee',5553456,'MS',2020,NULL,'password101'),(22,6,'654 Birch St',505,'jwang@email.com','James Wang',5557890,'PhD',2012,NULL,'password202'),(23,4,'987 Pine St',606,'mchen@email.com','Michelle Chen',5552345,'MS',2018,NULL,'password303'),(24,7,'234 Cedar St',707,'rpatel@email.com','Raj Patel',5556789,'PhD',2008,NULL,'password404'),(25,9,'567 Elm St',808,'tlee@email.com','Tina Lee',5551234,'MS',2016,NULL,'password505'),(26,8,'876 Oak St',909,'rsmith@email.com','Ryan Smith',5555678,'PhD',2003,NULL,'password606'),(27,10,'123 Maple St',1010,'jlee@email.com','Jin Lee',5559012,'MS',2019,NULL,'password707'),(28,2,'456 Main St',102,'jchang@email.com','Jennifer Chang',5552345,'MS',2017,NULL,'password808'),(29,5,'789 Oak St',203,'jchen@email.com','Jason Chen',5556789,'PhD',2009,NULL,'password909'),(30,1,'321 Walnut St',304,'amiller@email.com','Anna Miller',5551234,'MS',2014,NULL,'password1010'),(31,3,'654 Maple St',405,'mlee@email.com','Michael Lee',5555678,'PhD',2011,NULL,'password111'),(32,6,'987 Birch St',506,'jzhang@email.com','Jenny Zhang',5559012,'MS',2018,NULL,'password222'),(33,4,'234 Pine St',607,'jzhou@email.com','Jessica Zhou',5553456,'PhD',2007,NULL,'password333'),(34,7,'567 Cedar St',708,'jwang@email.com','Jenny Wang',5557890,'MS',2015,NULL,'password444'),(35,9,'876 Elm St',809,'tnguyen@email.com','Tom Nguyen',5552345,'PhD',2004,NULL,'password555'),(36,8,'123 Oak St',910,'jlee@email.com','Jenny Lee',5556789,'MS',2021,NULL,'password666'),(37,10,'456 Maple St',1011,'mliu@email.com','Michelle Liu',5551234,'PhD',2006,NULL,'password777');
 /*!40000 ALTER TABLE `professor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -440,9 +440,9 @@ DROP TABLE IF EXISTS `section`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `section` (
   `idSection` int NOT NULL AUTO_INCREMENT,
-  `Term_idTerm` decimal(3,0) NOT NULL,
+  `Term_idTerm` int NOT NULL,
   `Course_idCourse` int NOT NULL,
-  `Professor_idProfessor` decimal(9,0) NOT NULL,
+  `Professor_idProfessor` int NOT NULL,
   `exam_date` date DEFAULT NULL,
   `Section_capacity` int NOT NULL,
   `exam_time` time DEFAULT NULL,
@@ -491,7 +491,7 @@ DROP TABLE IF EXISTS `student`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student` (
-  `ssn` decimal(9,0) NOT NULL,
+  `ssn` int NOT NULL AUTO_INCREMENT,
   `Major_idMajor` int NOT NULL,
   `student_name` varchar(45) NOT NULL,
   `student_email` varchar(45) DEFAULT NULL,
@@ -525,7 +525,7 @@ DROP TABLE IF EXISTS `student_has_exam`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student_has_exam` (
-  `Student_ssn` decimal(9,0) NOT NULL,
+  `Student_ssn` int NOT NULL,
   `Exam_idExam` int NOT NULL,
   PRIMARY KEY (`Student_ssn`,`Exam_idExam`),
   KEY `fk_Student_has_Exam_Exam1_idx` (`Exam_idExam`),
@@ -552,7 +552,7 @@ DROP TABLE IF EXISTS `student_has_foodschedule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student_has_foodschedule` (
-  `Student_ssn` decimal(9,0) NOT NULL,
+  `Student_ssn` int NOT NULL,
   `FoodSchedule_idFoodSchedule` int NOT NULL,
   PRIMARY KEY (`Student_ssn`,`FoodSchedule_idFoodSchedule`),
   KEY `fk_Student_has_FoodSchedule_FoodSchedule1_idx` (`FoodSchedule_idFoodSchedule`),
@@ -602,7 +602,7 @@ DROP TABLE IF EXISTS `student_has_section`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student_has_section` (
-  `Student_ssn` decimal(9,0) NOT NULL,
+  `Student_ssn` int NOT NULL,
   `Section_idSection` int NOT NULL,
   `professor_mark` int DEFAULT NULL,
   `student_mark` int DEFAULT NULL,
@@ -682,7 +682,7 @@ DROP TABLE IF EXISTS `term`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `term` (
-  `idTerm` decimal(3,0) NOT NULL,
+  `idTerm` int NOT NULL AUTO_INCREMENT,
   `Department_idDepartment` int NOT NULL,
   `select_unit_start_date` date NOT NULL,
   `select_unit_end_date` date NOT NULL,
@@ -710,8 +710,8 @@ DROP TABLE IF EXISTS `term_has_student`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `term_has_student` (
-  `Term_idTerm` decimal(3,0) NOT NULL,
-  `Student_ssn` decimal(9,0) NOT NULL,
+  `Term_idTerm` int NOT NULL,
+  `Student_ssn` int NOT NULL,
   `Student_Terrm_avg` int DEFAULT NULL,
   `Student_Term_nounits` int DEFAULT NULL,
   `remove_section` tinyint DEFAULT '0',
@@ -944,4 +944,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 18:54:44
+-- Dump completed on 2023-07-01 23:32:28
