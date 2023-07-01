@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
--- Host: localhost    Database: mydb
+-- Host: 127.0.0.1    Database: university
 -- ------------------------------------------------------
--- Server version	8.0.32
+-- Server version	8.0.33
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -170,6 +170,19 @@ LOCK TABLES `food` WRITE;
 /*!40000 ALTER TABLE `food` DISABLE KEYS */;
 /*!40000 ALTER TABLE `food` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Temporary view structure for view `food_reservation`
+--
+
+DROP TABLE IF EXISTS `food_reservation`;
+/*!50001 DROP VIEW IF EXISTS `food_reservation`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `food_reservation` AS SELECT 
+ 1 AS `food_name`,
+ 1 AS `reservation_count`*/;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `foodschedule`
@@ -389,6 +402,7 @@ CREATE TABLE `student` (
   `student_phone` int DEFAULT NULL,
   `student_address` varchar(45) DEFAULT NULL,
   `entry_date` year NOT NULL,
+  `student_agverageGrades` int DEFAULT '0',
   PRIMARY KEY (`ssn`,`Major_idMajor`),
   KEY `fk_Student_Major1_idx` (`Major_idMajor`),
   CONSTRAINT `fk_Student_Major1` FOREIGN KEY (`Major_idMajor`) REFERENCES `major` (`idMajor`)
@@ -548,12 +562,30 @@ LOCK TABLES `term_has_student` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'mydb'
+-- Dumping events for database 'university'
 --
 
 --
--- Dumping routines for database 'mydb'
+-- Dumping routines for database 'university'
 --
+
+--
+-- Final view structure for view `food_reservation`
+--
+
+/*!50001 DROP VIEW IF EXISTS `food_reservation`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `food_reservation` AS select `food`.`Food_name` AS `food_name`,count(`student_has_foodschedule`.`Student_ssn`) AS `reservation_count` from ((`food` join `foodschedule`) join `student_has_foodschedule`) where ((`food`.`idFood` = `foodschedule`.`Food_idFood`) and (`foodschedule`.`idFoodSchedule` = `student_has_foodschedule`.`FoodSchedule_idFoodSchedule`) and (`foodschedule`.`FoodSchedule_date` between curdate() and (curdate() + interval 7 day))) group by `food`.`Food_name` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
 -- Final view structure for view `low_units`
@@ -600,4 +632,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-30 19:34:29
+-- Dump completed on 2023-07-01  8:53:27
