@@ -384,6 +384,24 @@ LOCK TABLES `professor` WRITE;
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `professors_calendar`
+--
+
+DROP TABLE IF EXISTS `professors_calendar`;
+/*!50001 DROP VIEW IF EXISTS `professors_calendar`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `professors_calendar` AS SELECT 
+ 1 AS `idProfessor`,
+ 1 AS `name`,
+ 1 AS `idSection`,
+ 1 AS `iddates`,
+ 1 AS `roomno`,
+ 1 AS `day_of_week`,
+ 1 AS `time`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `proforssor_garades`
 --
 
@@ -750,6 +768,24 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `professors_calendar`
+--
+
+/*!50001 DROP VIEW IF EXISTS `professors_calendar`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `professors_calendar` AS select `p`.`idProfessor` AS `idProfessor`,`p`.`name` AS `name`,`s`.`idSection` AS `idSection`,`d`.`iddates` AS `iddates`,`d`.`roomno` AS `roomno`,`d`.`day_of_week` AS `day_of_week`,`d`.`time` AS `time` from ((`professor` `p` join `section` `s`) join `dates` `d`) where ((`p`.`idProfessor` = `s`.`Professor_idProfessor`) and (`s`.`idSection` = `d`.`Section_idSection`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `proforssor_garades`
 --
 
@@ -830,4 +866,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 14:32:04
+-- Dump completed on 2023-07-01 15:39:44
