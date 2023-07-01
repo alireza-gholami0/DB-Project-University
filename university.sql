@@ -1,6 +1,6 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: university
+-- Host: 127.0.0.1    Database: mydb
 -- ------------------------------------------------------
 -- Server version	8.0.33
 
@@ -637,11 +637,26 @@ LOCK TABLES `term_has_student` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'university'
+-- Temporary view structure for view `top_average_section_marks_in_term`
+--
+
+DROP TABLE IF EXISTS `top_average_section_marks_in_term`;
+/*!50001 DROP VIEW IF EXISTS `top_average_section_marks_in_term`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `top_average_section_marks_in_term` AS SELECT 
+ 1 AS `idTerm`,
+ 1 AS `idSection`,
+ 1 AS `Student_ssn`,
+ 1 AS `AVG(shs.student_mark)`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping events for database 'mydb'
 --
 
 --
--- Dumping routines for database 'university'
+-- Dumping routines for database 'mydb'
 --
 
 --
@@ -787,6 +802,24 @@ UNLOCK TABLES;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `top_average_section_marks_in_term`
+--
+
+/*!50001 DROP VIEW IF EXISTS `top_average_section_marks_in_term`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `top_average_section_marks_in_term` AS select `t`.`idTerm` AS `idTerm`,`s`.`idSection` AS `idSection`,`shs`.`Student_ssn` AS `Student_ssn`,avg(`shs`.`student_mark`) AS `AVG(shs.student_mark)` from ((`term` `t` join `section` `s`) join `student_has_section` `shs`) where ((`t`.`idTerm` = `s`.`Term_idTerm`) and (`s`.`idSection` = `shs`.`Section_idSection`)) group by `t`.`idTerm`,`s`.`idSection`,`shs`.`Student_ssn` order by avg(`shs`.`student_mark`) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -797,4 +830,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 14:13:31
+-- Dump completed on 2023-07-01 14:32:04
