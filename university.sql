@@ -249,6 +249,7 @@ DROP TABLE IF EXISTS `major`;
 CREATE TABLE `major` (
   `idMajor` int NOT NULL AUTO_INCREMENT,
   `Department_idDepartment` int NOT NULL,
+  `name` varchar(45) NOT NULL,
   PRIMARY KEY (`idMajor`,`Department_idDepartment`),
   KEY `fk_Major_Department1_idx` (`Department_idDepartment`),
   CONSTRAINT `fk_Major_Department1` FOREIGN KEY (`Department_idDepartment`) REFERENCES `department` (`idDepartment`)
@@ -263,6 +264,20 @@ LOCK TABLES `major` WRITE;
 /*!40000 ALTER TABLE `major` DISABLE KEYS */;
 /*!40000 ALTER TABLE `major` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Temporary view structure for view `major_grades`
+--
+
+DROP TABLE IF EXISTS `major_grades`;
+/*!50001 DROP VIEW IF EXISTS `major_grades`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `major_grades` AS SELECT 
+ 1 AS `name`,
+ 1 AS `Term_idTerm`,
+ 1 AS `avg(shs.student_mark)`*/;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `meet`
@@ -367,6 +382,19 @@ LOCK TABLES `professor` WRITE;
 /*!40000 ALTER TABLE `professor` DISABLE KEYS */;
 /*!40000 ALTER TABLE `professor` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Temporary view structure for view `proforssor_garades`
+--
+
+DROP TABLE IF EXISTS `proforssor_garades`;
+/*!50001 DROP VIEW IF EXISTS `proforssor_garades`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `proforssor_garades` AS SELECT 
+ 1 AS `idProfessor`,
+ 1 AS `avg(shs.professor_mark)`*/;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `section`
@@ -519,6 +547,7 @@ CREATE TABLE `student_has_section` (
   `professor_mark` int DEFAULT NULL,
   `student_mark` int DEFAULT NULL,
   `is_passed` tinyint DEFAULT NULL,
+  `is_removerd` tinyint DEFAULT '0',
   PRIMARY KEY (`Student_ssn`,`Section_idSection`),
   KEY `fk_Student_has_Section_Section1_idx` (`Section_idSection`),
   KEY `fk_Student_has_Section_Student1_idx` (`Student_ssn`),
@@ -657,6 +686,24 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `major_grades`
+--
+
+/*!50001 DROP VIEW IF EXISTS `major_grades`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `major_grades` AS select `m`.`name` AS `name`,`sec`.`Term_idTerm` AS `Term_idTerm`,avg(`shs`.`student_mark`) AS `avg(shs.student_mark)` from (((`major` `m` join `student` `s`) join `student_has_section` `shs`) join `section` `sec`) where ((`m`.`idMajor` = `s`.`Major_idMajor`) and (`s`.`ssn` = `shs`.`Student_ssn`) and (`shs`.`Section_idSection` = `sec`.`idSection`)) group by `m`.`name`,`sec`.`Term_idTerm` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `passed_courses`
 --
 
@@ -670,6 +717,24 @@ UNLOCK TABLES;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `passed_courses` AS select `student`.`ssn` AS `ssn`,`student`.`student_name` AS `student_name`,`course`.`Course_name` AS `course_name`,`student_has_section`.`student_mark` AS `student_mark` from (((`student` join `student_has_section`) join `section`) join `course`) where ((`student`.`ssn` = `student_has_section`.`Student_ssn`) and (`student_has_section`.`Section_idSection` = `section`.`idSection`) and (`section`.`Course_idCourse` = `course`.`idCourse`) and (`student_has_section`.`is_passed` = 1)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `proforssor_garades`
+--
+
+/*!50001 DROP VIEW IF EXISTS `proforssor_garades`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `proforssor_garades` AS select `p`.`idProfessor` AS `idProfessor`,avg(`shs`.`professor_mark`) AS `avg(shs.professor_mark)` from ((`professor` `p` join `student_has_section` `shs`) join `section` `s`) where ((`p`.`idProfessor` = `s`.`Professor_idProfessor`) and (`shs`.`Section_idSection` = `s`.`idSection`)) group by `p`.`idProfessor` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -701,4 +766,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 13:50:24
+-- Dump completed on 2023-07-01 10:37:08
