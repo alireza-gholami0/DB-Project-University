@@ -397,6 +397,19 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary view structure for view `removed_section`
+--
+
+DROP TABLE IF EXISTS `removed_section`;
+/*!50001 DROP VIEW IF EXISTS `removed_section`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `removed_section` AS SELECT 
+ 1 AS `ssn`,
+ 1 AS `student_name`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `section`
 --
 
@@ -740,6 +753,24 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `removed_section`
+--
+
+/*!50001 DROP VIEW IF EXISTS `removed_section`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `removed_section` AS select `s`.`ssn` AS `ssn`,`s`.`student_name` AS `student_name` from ((`student` `s` join `term_has_student` `ts`) join `term` `t`) where ((`ts`.`Student_ssn` = `s`.`ssn`) and (`ts`.`remove_section` = 1) and (`ts`.`Term_idTerm` = `t`.`idTerm`) and (`t`.`is_current` = 1)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `show_info`
 --
 
@@ -766,4 +797,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 10:37:08
+-- Dump completed on 2023-07-01 14:13:31
