@@ -100,5 +100,30 @@ def edit_student_profile(username):
         print(e)
         return {'status': 'unsuccessful'}
 
+@app.route('/professors/edit/<username>', methods=['PATCH'])
+def edit_professor_profile(username):
+    data = request.get_json()
+    data['username'] = username
+    if not login_check_professor(data):
+        msg = 'Incorrect username / password !'
+        return {'msg': msg}, 401
+    if request.method == 'PATCH':
+        cur = mysql.connection.cursor()
+
+    set_params= []
+    set_params.append("name="+data["professor_name"] if "professor_name" in data else "")
+    set_params.append("email="+data["professor_email"] if "professor_email" in data else "")
+    set_params.append("city="+data["professor_city"] if "professor_city" in data else "")
+    set_params.append("phone_number="+data["professor_phone"] if "professor_phone" in data else "")
+    set_params.append("address="+data["professor_address"] if "professor_address" in data else "")
+    set_params.append("office="+data["professor_office"] if "professor_office" in data else "")
+
+    try:
+        cur.execute(f"UPDATE professor SET "+ ",".join(set_params))
+        mysql.connection.commit()
+        return {'status': 'success'}
+    except Exception as e:
+        print(e)
+        return {'status': 'unsuccessful'}
 if __name__ == '__main__':
     app.run(debug=True)
