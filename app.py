@@ -1,4 +1,6 @@
-from flask import Flask, request, jsonify, session
+from json import dumps
+import MySQLdb
+from flask import Flask, request
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -6,7 +8,7 @@ app = Flask(__name__)
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_DB'] = 'university'
-app.config['MYSQL_HOST'] = 'localhost' 
+app.config['MYSQL_HOST'] = 'localhost'
 mysql = MySQL(app)
 
 
@@ -26,6 +28,7 @@ def login_check_student(data) -> bool:
         print(e)
         return 0
 
+
 def login_check_professor(data) -> bool:
     try:
         username = data['username']
@@ -41,18 +44,33 @@ def login_check_professor(data) -> bool:
     except:
         return 0
 
-@app.route('/reserve_food', methods=['POST'])
+
+@app.route('/reserve_food', methods=['PUT', 'DELETE'])
 def reserve_food():
     data = request.get_json()
     if not login_check_student(data):
         msg = 'Incorrect username / password !'
         return {'msg': msg}, 401
-    if request.method == 'POST':
+    if request.method == 'PUT':
         cur = mysql.connection.cursor()
         username = data['username']
         food_schedule_id = data['food_schedulec_id']
         try:
-            cur.execute(f'''INSERT INTO student_has_foodschedule values ({username}, {food_schedule_id})''')
+            cur.execute(
+                f'''INSERT INTO student_has_foodschedule values ({username}, {food_schedule_id})''')
+            mysql.connection.commit()
+            return {'status': 'success'}
+        except MySQLdb.IntegrityError as e:
+            return {'status': 'unsuccessful', 'msg': 'already reserved'}, 400
+        except Exception as e:
+            return {'status': 'unsuccessful'},
+    if request.method == 'DELETE':
+        cur = mysql.connection.cursor()
+        username = data['username']
+        food_schedule_id = data['food_schedulec_id']
+        try:
+            cur.execute(
+                f'''DELETE FROM student_has_foodschedule where Student_ssn = {username}''')
             mysql.connection.commit()
             return {'status': 'success'}
         except Exception as e:
@@ -70,9 +88,11 @@ def exam_schedule():
     username = data['username']
     cur.execute(f'''SELECT e.section_idsection, e.Exam_date, e.Exam_time FROM student s, student_has_exam she, exam e
                     where s.ssn = {username} and s.ssn = she.Student_ssn and e.idExam = she.Exam_idExam ;''')
-    
+
     rv = cur.fetchall()
-    return jsonify(rv)
+    print(rv)
+    return dumps(rv, default=str)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
