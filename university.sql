@@ -176,7 +176,7 @@ CREATE TABLE `food` (
   `Food_name` varchar(45) NOT NULL,
   `Food_price` int DEFAULT NULL,
   PRIMARY KEY (`idFood`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,6 +185,7 @@ CREATE TABLE `food` (
 
 LOCK TABLES `food` WRITE;
 /*!40000 ALTER TABLE `food` DISABLE KEYS */;
+INSERT INTO `food` VALUES (1,'Hamburger',10),(2,'Pizza',12),(3,'Salad',8),(4,'Chicken Wings',9),(5,'French Fries',5),(6,'Tacos',7),(7,'Sushi',15),(8,'Burrito',8),(9,'Pasta',11),(10,'Sandwich',6);
 /*!40000 ALTER TABLE `food` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,7 +256,7 @@ CREATE TABLE `major` (
   PRIMARY KEY (`idMajor`,`Department_idDepartment`),
   KEY `fk_Major_Department1_idx` (`Department_idDepartment`),
   CONSTRAINT `fk_Major_Department1` FOREIGN KEY (`Department_idDepartment`) REFERENCES `department` (`idDepartment`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -264,6 +265,7 @@ CREATE TABLE `major` (
 
 LOCK TABLES `major` WRITE;
 /*!40000 ALTER TABLE `major` DISABLE KEYS */;
+INSERT INTO `major` VALUES (1,1,'Computer Science'),(2,1,'Electrical Engineering'),(3,2,'Psychology'),(4,2,'Sociology'),(5,3,'Marketing'),(6,3,'Management'),(7,4,'Biology'),(8,4,'Biochemistry'),(9,5,'Finance'),(10,5,'Accounting');
 /*!40000 ALTER TABLE `major` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -453,7 +455,7 @@ CREATE TABLE `section` (
   CONSTRAINT `fk_Section_Course1` FOREIGN KEY (`Course_idCourse`) REFERENCES `course` (`idCourse`),
   CONSTRAINT `fk_Section_Professor1` FOREIGN KEY (`Professor_idProfessor`) REFERENCES `professor` (`idProfessor`),
   CONSTRAINT `fk_Section_Term1` FOREIGN KEY (`Term_idTerm`) REFERENCES `term` (`idTerm`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -505,7 +507,7 @@ CREATE TABLE `student` (
   PRIMARY KEY (`ssn`),
   KEY `fk_Student_Major1_idx` (`Major_idMajor`),
   CONSTRAINT `fk_Student_Major1` FOREIGN KEY (`Major_idMajor`) REFERENCES `major` (`idMajor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -514,6 +516,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
+INSERT INTO `student` VALUES (11,3,'David Lee','davidlee@email.com','Chicago',5553456,'789 Pine St.',2019,75,500,'password3'),(12,4,'Karen Chen','karenchen@email.com','Houston',5554567,'101 Elm St.',2020,88,2000,'password4'),(13,5,'Michael Brown','michaelbrown@email.com','Philadelphia',5555678,'234 Maple Ln.',2018,91,2500,'password5'),(14,1,'Jennifer Davis','jenniferdavis@email.com','Phoenix',5556789,'567 Cedar Rd.',2017,79,800,'password6'),(15,2,'Robert Kim','robertkim@email.com','San Antonio',5557890,'890 Birch Dr.',2022,83,1200,'password7'),(16,3,'Susan Lee','susanlee@email.com','San Diego',5558901,'111 Walnut St.',2021,87,3000,'password8'),(17,4,'Richard Jones','richardjones@email.com','Dallas',5559012,'222 Cherry Ave.',2019,90,4000,'password9'),(18,7,'Emily Williams','emilywilliams@email.com','Seattle',5551234,'123 Main St.',2020,95,4500,'password1'),(19,2,'Michael Johnson','michaeljohnson@email.com','Houston',5555678,'456 Elm St.',2021,88,4200,'password2'),(20,3,'Jennifer Brown','jenniferbrown@email.com','San Francisco',5559012,'789 Oak St.',2019,91,4100,'password3'),(21,9,'Christopher Davis','christopherdavis@email.com','Miami',5553456,'234 Pine St.',2022,85,4300,'password4'),(22,5,'Jessica Garcia','jessicagarcia@email.com','New York',5556789,'567 Cedar St.',2020,93,4600,'password5'),(23,2,'Matthew Hernandez','matthewhernandez@email.com','Los Angeles',5551234,'901 Maple St.',2021,87,4200,'password6'),(24,6,'Amanda Martinez','amandamartinez@email.com','Chicago',5555678,'234 Oak St.',2019,92,4400,'password7'),(25,7,'David Rodriguez','davidrodriguez@email.com','Dallas',5559012,'567 Pine St.',2022,90,4500,'password8'),(26,10,'Ashley Wilson','ashleywilson@email.com','San Francisco',5553456,'890 Cedar St.',2018,85,4800,'password9'),(27,3,'Daniel Anderson','danielanderson@email.com','Miami',5556789,'123 Maple St.',2020,89,4100,'password10'),(28,8,'Sarah Baker','sarahbaker@email.com','New York',5551234,'456 Oak St.',2021,94,4700,'password11'),(29,9,'Robert Carter','robertcarter@email.com','Los Angeles',5555678,'789 Pine St.',2019,85,4300,'password12'),(30,5,'Stephanie Clark','stephanieclark@email.com','Chicago',5559012,'234 Cedar St.',2022,92,4600,'password13'),(31,4,'Anthony Davis','anthonydavis@email.com','Dallas',5553456,'567 Maple St.',2020,90,4000,'password14'),(32,6,'Melissa Edwards','melissaedwards@email.com','San Francisco',5556789,'901 Oak St.',2018,87,4400,'password15'),(33,2,'Jonathan Evans','jonathanevans@email.com','Miami',5551234,'234 Pine St.',2021,88,4200,'password16'),(34,8,'Nicholas Flores','nicholasflores@email.com','New York',5555678,'567 Cedar St.',2019,94,4700,'password17'),(35,9,'Samantha Garcia','samanthagarcia@email.com','Los Angeles',5559012,'890 Oak St.',2022,85,4300,'password18'),(36,3,'Hannah Gonzalez','hannahgonzalez@email.com','Chicago',5553456,'123 Pine St.',2020,91,4100,'password19'),(37,7,'Brandon Green','brandongreen@email.com','Dallas',5556789,'456 Maple St.',2018,90,4500,'password20'),(38,2,'Elizabeth Hall','elizabethhall@email.com','San Francisco',5551234,'789 Oak St.',2021,87,4200,'password21'),(39,8,'Christopher Harris','christopherharris@email.com','Miami',5555678,'234 Cedar St.',2019,94,4700,'password22'),(40,6,'Victoria Hernandez','victoriahernandez@email.com','New York',5559012,'567 Pine St.',2022,92,4400,'password23'),(41,4,'Jacob Hill','jacobhill@email.com','Los Angeles',5553456,'890 Cedar St.',2020,90,4000,'password24'),(42,1,'Megan Jackson','meganjackson@email.com','Chicago',5556789,'123 Maple St.',2018,96,4900,'password25'),(43,6,'William Johnson','williamjohnson@email.com','Dallas',5551234,'456 Oak St.',2021,92,4400,'password26'),(44,3,'Madison Jones','madisonjones@email.com','San Francisco',5555678,'789 Pine St.',2019,91,4100,'password27'),(45,5,'Joshua King','joshuaking@email.com','Miami',5559012,'234 Cedar St.',2022,93,4600,'password28'),(46,9,'Lauren Lee','laurenlee@email.com','New York',5553456,'567 Oak St.',2020,85,4300,'password29'),(47,2,'Christopher Lewis','christopherlewis@email.com','Los Angeles',5556789,'901 Pine St.',2018,88,4200,'password30'),(48,7,'Olivia Martinez','oliviamartinez@email.com','Chicago',5551234,'234 Maple St.',2021,90,4500,'password31'),(49,8,'Andrew Martin','andrewmartin@email.com','Dallas',5555678,'567 Cedar St.',2019,94,4700,'password32'),(50,5,'Makayla Mitchell','makaylamitchell@email.com','San Francisco',5559012,'890 Oak St.',2022,93,4600,'password33'),(51,6,'Ethan Moore','ethanmoore@email.com','Miami',5553456,'123 Pine St.',2020,92,4400,'password34'),(52,1,'Abigail Nelson','abigailnelson@email.com','New York',5556789,'456 Cedar St.',2018,96,4900,'password35'),(53,9,'Natalie Parker','natalieparker@email.com','Los Angeles',5551234,'789 Maple St.',2021,85,4300,'password36'),(54,3,'Christopher Perez','christopherperez@email.com','Chicago',5555678,'234 Oak St.',2019,91,4100,'password37'),(55,4,'Avery Phillips','averyphillips@email.com','Dallas',5559012,'567 Pine St.',2022,90,4000,'password38'),(56,6,'Isabella Ramirez','isabellaramirez@email.com','San Francisco',5553456,'890 Cedar St.',2020,92,4400,'password39'),(57,8,'David Reed','davidreed@email.com','Miami',5556789,'123 Maple St.',2018,94,4700,'password40'),(58,2,'Kaitlyn Richardson','kaitlynrichardson@email.com','New York',5551234,'456 Oak St.',2021,88,4200,'password41'),(59,5,'Tyler Rivera','tylerrivera@email.com','Los Angeles',5555678,'789 Pine St.',2019,93,4600,'password42'),(60,7,'Sophia Robinson','sophiarobinson@email.com','Chicago',5559012,'234 Cedar St.',2022,90,4500,'password43');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -944,4 +947,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 23:32:28
+-- Dump completed on 2023-07-02 14:27:25
