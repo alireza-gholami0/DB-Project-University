@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_DB'] = 'university'
-app.config['MYSQL_HOST'] = 'localhost' 
+app.config['MYSQL_HOST'] = '127.0.0.1' 
 mysql = MySQL(app)
 
 
@@ -19,12 +19,12 @@ def login_check_student(data) -> bool:
             WHERE ssn = {username} AND student_password = "{password}"''')
         account = cur.fetchone()
         if account:
-            return 1
+            return True
         else:
-            return 0
+            return False
     except Exception as e:
         print(e)
-        return 0
+        return False
 
 def login_check_professor(data) -> bool:
     try:
@@ -39,7 +39,7 @@ def login_check_professor(data) -> bool:
         else:
             return False
     except:
-        return 0
+        return False
 
 @app.route('/reserve_food', methods=['POST'])
 def reserve_food():
@@ -50,7 +50,7 @@ def reserve_food():
     if request.method == 'POST':
         cur = mysql.connection.cursor()
         username = data['username']
-        food_schedule_id = data['food_schedulec_id']
+        food_schedule_id = data['food_schedule_id']
         try:
             cur.execute(f'''INSERT INTO student_has_foodschedule values ({username}, {food_schedule_id})''')
             mysql.connection.commit()
