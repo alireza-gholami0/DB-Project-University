@@ -45,7 +45,7 @@ CREATE TABLE `course` (
   PRIMARY KEY (`idCourse`),
   KEY `fk_Course_Department1_idx` (`Department_idDepartment`),
   CONSTRAINT `fk_Course_Department1` FOREIGN KEY (`Department_idDepartment`) REFERENCES `department` (`idDepartment`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,6 +54,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
+INSERT INTO `course` VALUES (1,1,3,'Introduction to Computer Science'),(2,2,4,'Data Structures and Algorithms'),(3,2,3,'Introduction to Psychology'),(4,3,4,'Abnormal Psychology'),(5,5,3,'Introduction to Marketing'),(6,6,4,'Consumer Behaviour'),(7,7,3,'Introduction to Biology'),(8,8,4,'Cell Biology'),(9,5,3,'Introduction to Finance'),(10,5,4,'Investment and Portfolio Management'),(11,1,3,'Web Development'),(12,1,4,'Digital Marketing'),(13,7,3,'American Literature'),(14,2,4,'Abnormal Psychology'),(15,6,3,'Public Speaking'),(16,6,4,'Creative Writing'),(17,2,3,'Environmental Science'),(18,10,4,'Quantum Mechanics'),(19,9,3,'Macroeconomics'),(20,4,4,'Medical Ethics');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,7 +180,7 @@ CREATE TABLE `food` (
   `Food_name` varchar(45) NOT NULL,
   `Food_price` int DEFAULT NULL,
   PRIMARY KEY (`idFood`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,7 +189,7 @@ CREATE TABLE `food` (
 
 LOCK TABLES `food` WRITE;
 /*!40000 ALTER TABLE `food` DISABLE KEYS */;
-INSERT INTO `food` VALUES (1,'Hamburger',10),(2,'Pizza',12),(3,'Salad',8),(4,'Chicken Wings',9),(5,'French Fries',5),(6,'Tacos',7),(7,'Sushi',15),(8,'Burrito',8),(9,'Pasta',11),(10,'Sandwich',6);
+INSERT INTO `food` VALUES (1,'Hamburger',10),(2,'Pizza',12),(3,'Salad',8),(4,'Chicken Wings',9),(5,'French Fries',5),(6,'Tacos',7),(7,'Sushi',15),(8,'Burrito',8),(9,'Pasta',11),(10,'Sandwich',6),(11,'ash reshte',20);
 /*!40000 ALTER TABLE `food` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,7 +220,7 @@ CREATE TABLE `foodschedule` (
   PRIMARY KEY (`idFoodSchedule`),
   KEY `fk_FoodSchedule_Food1_idx` (`Food_idFood`),
   CONSTRAINT `fk_FoodSchedule_Food1` FOREIGN KEY (`Food_idFood`) REFERENCES `food` (`idFood`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -228,6 +229,7 @@ CREATE TABLE `foodschedule` (
 
 LOCK TABLES `foodschedule` WRITE;
 /*!40000 ALTER TABLE `foodschedule` DISABLE KEYS */;
+INSERT INTO `foodschedule` VALUES (1,1,'2023-07-02'),(2,2,'2023-07-03'),(3,3,'2023-07-04'),(4,4,'2023-07-05'),(5,5,'2023-07-06'),(6,6,'2023-07-07'),(7,7,'2023-07-08'),(8,1,'2023-07-09'),(9,2,'2023-07-10'),(10,4,'2023-07-11'),(11,3,'2023-07-11');
 /*!40000 ALTER TABLE `foodschedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -458,7 +460,7 @@ CREATE TABLE `section` (
   CONSTRAINT `fk_Section_Course1` FOREIGN KEY (`Course_idCourse`) REFERENCES `course` (`idCourse`),
   CONSTRAINT `fk_Section_Professor1` FOREIGN KEY (`Professor_idProfessor`) REFERENCES `professor` (`idProfessor`),
   CONSTRAINT `fk_Section_Term1` FOREIGN KEY (`Term_idTerm`) REFERENCES `term` (`idTerm`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -467,6 +469,7 @@ CREATE TABLE `section` (
 
 LOCK TABLES `section` WRITE;
 /*!40000 ALTER TABLE `section` DISABLE KEYS */;
+INSERT INTO `section` VALUES (1,1,4,1,'2023-08-18',20,'11:00:00'),(2,1,3,2,'2023-08-17',30,'09:00:00'),(3,10,2,3,'2023-08-16',35,'14:00:00'),(4,2,1,4,'2023-08-15',25,'10:00:00'),(5,3,3,5,'2023-08-17',35,'09:00:00'),(6,9,4,6,'2023-08-18',40,'11:00:00'),(7,8,5,7,'2023-08-19',40,'13:00:00'),(8,7,6,8,'2023-08-20',25,'16:00:00'),(9,6,8,9,'2023-08-22',30,'15:00:00'),(10,5,5,10,'2023-08-19',35,'13:00:00'),(11,1,4,1,'2023-08-18',20,'11:00:00'),(12,1,3,2,'2023-08-17',30,'09:00:00'),(13,10,2,3,'2023-08-16',35,'14:00:00'),(14,1,10,4,'2023-08-15',25,'10:00:00'),(15,3,11,5,'2023-08-17',35,'09:00:00'),(16,9,14,6,'2023-08-18',40,'11:00:00'),(17,8,15,7,'2023-08-19',40,'13:00:00'),(18,7,16,8,'2023-08-20',25,'16:00:00'),(19,6,18,9,'2023-08-22',30,'15:00:00'),(20,5,15,10,'2023-08-19',35,'13:00:00');
 /*!40000 ALTER TABLE `section` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -699,7 +702,7 @@ CREATE TABLE `term` (
   PRIMARY KEY (`idTerm`),
   KEY `fk_Term_Department1_idx` (`Department_idDepartment`),
   CONSTRAINT `fk_Term_Department1` FOREIGN KEY (`Department_idDepartment`) REFERENCES `department` (`idDepartment`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -708,6 +711,7 @@ CREATE TABLE `term` (
 
 LOCK TABLES `term` WRITE;
 /*!40000 ALTER TABLE `term` DISABLE KEYS */;
+INSERT INTO `term` VALUES (1,10,'2022-01-10','2022-05-20',1),(2,1,'2022-02-01','2022-05-15',0),(3,2,'2022-01-15','2022-05-25',0),(4,3,'2022-02-10','2022-05-30',0),(5,4,'2022-01-20','2022-06-01',0),(6,5,'2022-02-15','2022-06-05',0),(7,6,'2022-01-25','2022-06-10',0),(8,7,'2022-02-20','2022-06-15',0),(9,8,'2022-02-10','2022-06-20',0),(10,9,'2022-02-25','2022-06-25',0);
 /*!40000 ALTER TABLE `term` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -953,4 +957,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-02 11:05:31
+-- Dump completed on 2023-07-02 15:58:09
