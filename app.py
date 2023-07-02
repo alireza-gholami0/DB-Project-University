@@ -21,12 +21,12 @@ def login_check_student(data) -> bool:
             WHERE ssn = {username} AND student_password = "{password}"''')
         account = cur.fetchone()
         if account:
-            return 1
+            return True
         else:
-            return 0
+            return False
     except Exception as e:
         print(e)
-        return 0
+        return False
 
 
 def login_check_professor(data) -> bool:
@@ -42,7 +42,7 @@ def login_check_professor(data) -> bool:
         else:
             return False
     except:
-        return 0
+        return False
 
 
 @app.route('/reserve_food', methods=['PUT', 'DELETE'])
@@ -96,3 +96,4 @@ def exam_schedule():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
