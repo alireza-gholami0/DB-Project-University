@@ -219,6 +219,7 @@ CREATE TABLE `foodschedule` (
   `idFoodSchedule` int NOT NULL AUTO_INCREMENT,
   `Food_idFood` int NOT NULL,
   `FoodSchedule_date` date NOT NULL,
+  `cont` int DEFAULT '0',
   PRIMARY KEY (`idFoodSchedule`),
   KEY `fk_FoodSchedule_Food1_idx` (`Food_idFood`),
   CONSTRAINT `fk_FoodSchedule_Food1` FOREIGN KEY (`Food_idFood`) REFERENCES `food` (`idFood`)
@@ -231,7 +232,7 @@ CREATE TABLE `foodschedule` (
 
 LOCK TABLES `foodschedule` WRITE;
 /*!40000 ALTER TABLE `foodschedule` DISABLE KEYS */;
-INSERT INTO `foodschedule` VALUES (1,1,'2023-07-02'),(2,2,'2023-07-03'),(3,3,'2023-07-04'),(4,4,'2023-07-05'),(5,5,'2023-07-06'),(6,6,'2023-07-07'),(7,7,'2023-07-08'),(8,1,'2023-07-09'),(9,2,'2023-07-10'),(10,4,'2023-07-11'),(11,3,'2023-07-11');
+INSERT INTO `foodschedule` VALUES (1,1,'2023-07-02',0),(2,2,'2023-07-03',0),(3,3,'2023-07-04',0),(4,4,'2023-07-05',0),(5,5,'2023-07-06',0),(6,6,'2023-07-07',0),(7,7,'2023-07-08',0),(8,1,'2023-07-09',0),(9,2,'2023-07-10',0),(10,4,'2023-07-11',0),(11,3,'2023-07-11',0);
 /*!40000 ALTER TABLE `foodschedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -552,6 +553,7 @@ CREATE TABLE `student_has_exam` (
 
 LOCK TABLES `student_has_exam` WRITE;
 /*!40000 ALTER TABLE `student_has_exam` DISABLE KEYS */;
+INSERT INTO `student_has_exam` VALUES (4,1),(10,1),(4,2),(8,2),(10,2),(4,3),(8,3),(10,3),(1,4),(5,4),(10,4),(4,5),(10,5),(1,6),(5,6),(1,7),(5,7),(1,8),(5,8),(1,9),(5,9),(2,10),(4,10),(6,10),(8,10),(2,11),(6,11),(2,12),(6,12),(2,13),(6,13),(2,14),(6,14),(3,15),(7,15),(3,16),(7,16),(3,17),(7,17),(3,18),(7,18),(3,19),(7,19);
 /*!40000 ALTER TABLE `student_has_exam` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -591,14 +593,15 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `student_has_foodschedule_AFTER_INSERT` AFTER INSERT ON `student_has_foodschedule` FOR EACH ROW BEGIN
-  DECLARE food_price INT;
-  SELECT Food_price INTO food_price FROM food WHERE idFood = (SELECT Food_idFood FROM foodschedule WHERE idFoodSchedule = NEW.FoodSchedule_idFoodSchedule);
-  IF food_price <= (SELECT student_balance FROM student WHERE ssn = NEW.Student_ssn) THEN
-    UPDATE student SET student_balance = student_balance - food_price WHERE ssn = NEW.Student_ssn;
+
+ set @food_price = (SELECT Food_price FROM food WHERE idFood = (SELECT Food_idFood FROM foodschedule WHERE idFoodSchedule = NEW.FoodSchedule_idFoodSchedule));
+  IF @food_price <= (SELECT student_balance FROM student WHERE ssn = NEW.Student_ssn) THEN
+    UPDATE student SET student_balance = student_balance - @food_price WHERE ssn = NEW.Student_ssn;
   ELSE
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient balance';
   END IF;
-  end */;;
+	update foodschedule set count = count + 1 where NEW.FoodSchedule_idFoodSchedule = idfoodschedule;
+end */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -652,6 +655,7 @@ DELIMITER ;;
   WHERE NEW.Student_ssn = Student_ssn;
   IF NEW.section_idsection NOT IN (select section_idsection from exam) then
   INSERT INTO exam(exam_date, exam_time, section_idsection) (select exam_date, exam_time, NEW.Section_idSection from section s where s.idsection = NEW.section_idsection);
+  INSERT into student_has_exam (select NEW.Student_ssn, idExam from exam where NEW.Section_idSection = exam.Section_idSection);
 END IF;
 END */;;
 DELIMITER ;
@@ -960,4 +964,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-02 18:33:01
+-- Dump completed on 2023-07-02 16:20:34
