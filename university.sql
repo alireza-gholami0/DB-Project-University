@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: university
 -- ------------------------------------------------------
@@ -398,6 +398,19 @@ INSERT INTO `professor` VALUES (1,1,'123 Main St',101,'john.smith@university.edu
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `professor_grades`
+--
+
+DROP TABLE IF EXISTS `professor_grades`;
+/*!50001 DROP VIEW IF EXISTS `professor_grades`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `professor_grades` AS SELECT 
+ 1 AS `idProfessor`,
+ 1 AS `avg_mark`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `professors_calendar`
 --
 
@@ -413,19 +426,6 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `roomno`,
  1 AS `day_of_week`,
  1 AS `time`*/;
-SET character_set_client = @saved_cs_client;
-
---
--- Temporary view structure for view `proforssor_garades`
---
-
-DROP TABLE IF EXISTS `proforssor_garades`;
-/*!50001 DROP VIEW IF EXISTS `proforssor_garades`*/;
-SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `proforssor_garades` AS SELECT 
- 1 AS `idProfessor`,
- 1 AS `avg(shs.professor_mark)`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -673,6 +673,38 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `update_professor_avg_mark` AFTER INSERT ON `student_has_section` FOR EACH ROW BEGIN 
+IF NEW.professor_mark iS NOT NULL THEN 
+	SET @pid = ( SELECT p.idProfessor
+					FROM
+						`section` as s,
+						`professor` as p
+					WHERE
+						s.Professor_idProfessor = p.idProfessor
+						AND s.idSection = NEW.Section_idSection
+				);
+	UPDATE
+		`professor`
+	SET
+		avg_mark = ( SELECT avg_mark FROM professor_grades WHERE idProfessor = @pid )
+	WHERE
+		idProfessor = @pid;
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `student_has_section_AFTER_UPDATE` AFTER UPDATE ON `student_has_section` FOR EACH ROW BEGIN
 IF NEW.is_signed = 1 AND OLD.is_signed = 0 THEN
 UPDATE student SET 
@@ -867,6 +899,24 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `professor_grades`
+--
+
+/*!50001 DROP VIEW IF EXISTS `professor_grades`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `professor_grades` AS select `p`.`idProfessor` AS `idProfessor`,avg(`shs`.`professor_mark`) AS `avg_mark` from ((`professor` `p` join `student_has_section` `shs`) join `section` `s`) where ((`p`.`idProfessor` = `s`.`Professor_idProfessor`) and (`shs`.`Section_idSection` = `s`.`idSection`)) group by `p`.`idProfessor` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `professors_calendar`
 --
 
@@ -880,24 +930,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `professors_calendar` AS select `p`.`idProfessor` AS `idProfessor`,`p`.`name` AS `name`,`s`.`idSection` AS `idSection`,`d`.`iddates` AS `iddates`,`d`.`roomno` AS `roomno`,`d`.`day_of_week` AS `day_of_week`,`d`.`time` AS `time` from ((`professor` `p` join `section` `s`) join `dates` `d`) where ((`p`.`idProfessor` = `s`.`Professor_idProfessor`) and (`s`.`idSection` = `d`.`Section_idSection`)) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `proforssor_garades`
---
-
-/*!50001 DROP VIEW IF EXISTS `proforssor_garades`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `proforssor_garades` AS select `p`.`idProfessor` AS `idProfessor`,avg(`shs`.`professor_mark`) AS `avg(shs.professor_mark)` from ((`professor` `p` join `student_has_section` `shs`) join `section` `s`) where ((`p`.`idProfessor` = `s`.`Professor_idProfessor`) and (`shs`.`Section_idSection` = `s`.`idSection`)) group by `p`.`idProfessor` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -965,4 +997,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-02 18:28:54
+-- Dump completed on 2023-07-02 21:22:39
