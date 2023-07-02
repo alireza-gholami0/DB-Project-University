@@ -126,7 +126,10 @@ CREATE TABLE `exam` (
   `idExam` int NOT NULL AUTO_INCREMENT,
   `Exam_date` date NOT NULL,
   `Exam_time` time NOT NULL,
-  PRIMARY KEY (`idExam`)
+  `section_idsection` int NOT NULL,
+  PRIMARY KEY (`idExam`),
+  KEY `fk_exam_section1_idx` (`section_idsection`),
+  CONSTRAINT `fk_exam_section1` FOREIGN KEY (`section_idsection`) REFERENCES `section` (`idSection`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -641,6 +644,9 @@ DELIMITER ;;
   UPDATE term_has_student SET
   Student_Term_nounits = Student_Term_nounits + (select distinct unit from course c , section s where NEW.Section_idSection=s.idSection and c.idCourse=s.Course_idCourse)
   WHERE NEW.Student_ssn = Student_ssn;
+  IF NEW.section_idsection NOT IN (select section_idsection from exam) then
+  INSERT INTO exam(exam_date, exam_time, section_idsection) (select exam_date, exam_time, NEW.Section_idSection from section s where s.idsection = NEW.section_idsection);
+END IF;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -947,4 +953,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-02 14:27:25
+-- Dump completed on 2023-07-02 11:05:31

@@ -36,18 +36,31 @@ def login_check_professor(request) -> bool:
         return False
 
 @app.route('/reserve_food', methods=['POST'])
-def product_categories():
+def reserve_food():
     if not login_check_student(request):
         msg = 'Incorrect username / password !'
         return {'msg': msg}, 401
     if request.method == 'POST':
         cur = mysql.connection.cursor()
         data = request.get_json()
-        # cur.execute('''SELECT * FROM reserve;''')
+        username = request.json['username']
+
+        cur.execute('''SELECT * FROM reserve;''')
         rv = cur.fetchall()
         return jsonify(rv)
 
-
+@app.route('/exam_schedule', methods=['GET'])
+def exam_schedule():
+    if not login_check_student(request):
+        msg = 'Incorrect username / password !'
+        return {'msg': msg}, 401
+    cur = mysql.connection.cursor()
+    data = request.get_json()
+    username = request.json['username']
+    cur.execute(f'''SELECT e.name, e.Exam_date, e.Exam_time FROM student s, student_has_exam she, exam e
+                    where s.ssn = {username} and s.ssn = she.Student_ssn and e.idExam = she.Exam_idExam ;''')
+    rv = cur.fetchall()
+    return jsonify(rv)
 
 if __name__ == '__main__':
     app.run(debug=True)
