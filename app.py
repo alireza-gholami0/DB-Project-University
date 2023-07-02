@@ -74,5 +74,31 @@ def exam_schedule():
     rv = cur.fetchall()
     return jsonify(rv)
 
+
+@app.route('/students/edit/<username>', methods=['PATCH'])
+def edit_student_profile(username):
+    data = request.get_json()
+    data['username'] = username
+    if not login_check_student(data):
+        msg = 'Incorrect username / password !'
+        return {'msg': msg}, 401
+    if request.method == 'PATCH':
+        cur = mysql.connection.cursor()
+
+    set_params= []
+    set_params.append("student_name="+data["student_name"] if "student_name" in data else "")
+    set_params.append("student_email="+data["student_email"] if "student_email" in data else "")
+    set_params.append("student_city="+data["student_city"] if "student_city" in data else "")
+    set_params.append("student_phone="+data["student_phone"] if "student_phone" in data else "")
+    set_params.append("student_address="+data["student_address"] if "student_address" in data else "")
+
+    try:
+        cur.execute(f"UPDATE student SET "+ ",".join(set_params))
+        mysql.connection.commit()
+        return {'status': 'success'}
+    except Exception as e:
+        print(e)
+        return {'status': 'unsuccessful'}
+
 if __name__ == '__main__':
     app.run(debug=True)
