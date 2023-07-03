@@ -59,6 +59,12 @@ def reserve_food():
         username = data['username']
         food_schedule_id = data['food_schedulec_id']
         try:
+            # cur.execute(f'''select FoodSchedule_date from foodschedule where idFoodSchedule = {food_schedule_id}
+            #             ''')
+            # date = date = datetime.strptime(cur.fetchone(), "%Y-%m-%d").date()
+            # now = datetime.now()
+            # if (date < now):
+            #     return {'status': 'unsuccessful', 'msg': 'can not reserve passed meels'}, 400
             cur.execute(
                 f'''INSERT INTO student_has_foodschedule values ({username}, {food_schedule_id})''')
             mysql.connection.commit()
@@ -66,12 +72,18 @@ def reserve_food():
         except MySQLdb.IntegrityError as e:
             return {'status': 'unsuccessful', 'msg': 'already reserved'}, 400
         except Exception as e:
-            return {'status': 'unsuccessful'},
+            return {'status': 'unsuccessful'},401
     if request.method == 'DELETE':
         cur = mysql.connection.cursor()
         username = data['username']
         food_schedule_id = data['food_schedulec_id']
         try:
+            # cur.execute(f'''select FoodSchedule_date from foodschedule where idFoodSchedule = {food_schedule_id}
+            #             ''')
+            # date = date = datetime.strptime(cur.fetchone(), "%Y-%m-%d").date()
+            # now = datetime.now()
+            # if (date < now):
+            #     return {'status': 'unsuccessful', 'msg': 'can not cancel passed meels'}, 400
             cur.execute(
                 f'''DELETE FROM student_has_foodschedule where Student_ssn = {username} and  FoodSchedule_idFoodSchedule = {food_schedule_id}''')
             mysql.connection.commit()
