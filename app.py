@@ -70,12 +70,12 @@ def reserve_food():
         food_schedule_id = data['food_schedulec_id']
         try:
             cur.execute(
-                f'''DELETE FROM student_has_foodschedule where Student_ssn = {username}''')
+                f'''DELETE FROM student_has_foodschedule where Student_ssn = {username} and  FoodSchedule_idFoodSchedule = {food_schedule_id}''')
             mysql.connection.commit()
             return {'status': 'success'}
         except Exception as e:
             print(e)
-            return {'status': 'unsuccessful'}
+            return {'status': 'unsuccessful'}, 400
 
 
 @app.route('/exam_schedule', methods=['GET'])
@@ -93,6 +93,21 @@ def exam_schedule():
     print(rv)
     return dumps(rv, default=str)
 
+@app.route('/grad_report', methods=['GET'])
+def exam_schedule():
+    data = request.get_json()
+    if not login_check_student(data):
+        msg = 'Incorrect username / password !'
+        return {'msg': msg}, 401
+    cur = mysql.connection.cursor()
+    username = data['username']
+    cur.execute(f'''SELECT c.Course_name, section_idsection,student_mark,is_passed,is_removerd,is_signed
+                FROM course as c,section as s, student_has_section as shs
+                where shs.student_ssn = {username} and shs.Section_idSection = s.idSection  and s.Course_idCourse = c.idcorse; ;''')
+
+    rv = cur.fetchall()
+    print(rv)
+    return dumps(rv, default=str)
 
 if __name__ == '__main__':
     app.run(debug=True)
