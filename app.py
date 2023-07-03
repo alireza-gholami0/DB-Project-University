@@ -341,7 +341,7 @@ def remove_section():
         msg = 'You are not the student of this section or section is removed or section is not in the current term!'
         return {'msg': msg}, 401
 
-@app.route('/show_meet', methods=['POST'])
+@app.route('/show_meet', methods=['GET'])
 def show_meet():
     data = request.get_json()
     if not login_check_student(data):
