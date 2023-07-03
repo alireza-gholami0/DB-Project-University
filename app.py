@@ -178,6 +178,24 @@ def inventory_increase():
         return {'status': 'unsuccessful'}
     
 
+@app.route('/unit_info', methods=['GET'])
+def unit_info():
+    data = request.get_json()
+    if not login_check_student(data):
+        msg = 'Incorrect username / password !'
+        return {'msg': msg}, 401
+    cur = mysql.connection.cursor()
+    username = data['username']
+    cur.execute(f'''SELECT c.idCourse, d.roomno, p.name , f.Factuly_name , c.Course_name FROM
+                    dates d , section sc , course c , professor p , department dt , factuly f
+                    where sc.Course_idCourse = c.idCourse and sc.Professor_idProfessor = p.idProfessor 
+                    and d.Section_idSection = sc.idSection and  c.Department_idDepartment = dt.idDepartment 
+                    and dt.Factuly_idFactuly = f.idFactuly  ;''')
+
+    rv = cur.fetchall()
+    print(rv)
+    return dumps(rv, default=str) 
+
 
 
 
