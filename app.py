@@ -372,6 +372,25 @@ def show_meet():
 
 
 
+@app.route('/professors/submitMeet/student/<studentId>', methods=['POST'])
+def professor_submit_student_meet(studentId):
+    data = request.get_json()
+    if not login_check_professor(data):
+        msg = 'Incorrect username / password !'
+        return {'msg': msg}, 401
+    cur = mysql.connection.cursor()
+    presence = data["presence"]
+    date = datetime.now().strftime('%Y-%m-%d')
+    # TODO: check if professor has access to section
+    sectionId = data["sectionId"]
+
+    try:
+        cur.execute(f'''INSERT INTO meet (Student_ssn,Section_idSection,presence,date) values ({studentId}, {sectionId}, presence, "{date}")''')
+        mysql.connection.commit()
+        return {'status': 'success'}
+    except Exception as e:
+        print(e)
+        return {'status': 'unsuccessful'}
 
 @app.route('/students/edit', methods=['PATCH'])
 def edit_student_profile():
