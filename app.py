@@ -1,5 +1,7 @@
-from flask import Flask, request, jsonify, session
+from datetime import datetime
+from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
+from json import dumps
 
 app = Flask(__name__)
 
@@ -75,55 +77,119 @@ def exam_schedule():
     return jsonify(rv)
 
 
-@app.route('/students/edit/<username>', methods=['PATCH'])
-def edit_student_profile(username):
+@app.route('/students/edit', methods=['PATCH'])
+def edit_student_profile():
     data = request.get_json()
-    data['username'] = username
     if not login_check_student(data):
         msg = 'Incorrect username / password !'
         return {'msg': msg}, 401
     if request.method == 'PATCH':
         cur = mysql.connection.cursor()
 
-    set_params= []
-    set_params.append("student_name="+data["student_name"] if "student_name" in data else "")
-    set_params.append("student_email="+data["student_email"] if "student_email" in data else "")
-    set_params.append("student_city="+data["student_city"] if "student_city" in data else "")
-    set_params.append("student_phone="+data["student_phone"] if "student_phone" in data else "")
-    set_params.append("student_address="+data["student_address"] if "student_address" in data else "")
+        set_params= []
+        set_params.append("student_name="+data["student_name"] if "student_name" in data else "")
+        set_params.append("student_email="+data["student_email"] if "student_email" in data else "")
+        set_params.append("student_city="+data["student_city"] if "student_city" in data else "")
+        set_params.append("student_phone="+data["student_phone"] if "student_phone" in data else "")
+        set_params.append("student_address="+data["student_address"] if "student_address" in data else "")
 
-    try:
-        cur.execute(f"UPDATE student SET "+ ",".join(set_params))
-        mysql.connection.commit()
-        return {'status': 'success'}
-    except Exception as e:
-        print(e)
-        return {'status': 'unsuccessful'}
+        try:
+            cur.execute(f"UPDATE student SET "+ ",".join(set_params))
+            mysql.connection.commit()
+            return {'status': 'success'}
+        except Exception as e:
+            print(e)
+            return {'status': 'unsuccessful'}
 
-@app.route('/professors/edit/<username>', methods=['PATCH'])
-def edit_professor_profile(username):
+@app.route('/professors/edit', methods=['PATCH'])
+def edit_professor_profile():
     data = request.get_json()
-    data['username'] = username
     if not login_check_professor(data):
         msg = 'Incorrect username / password !'
         return {'msg': msg}, 401
     if request.method == 'PATCH':
         cur = mysql.connection.cursor()
 
-    set_params= []
-    set_params.append("name="+data["professor_name"] if "professor_name" in data else "")
-    set_params.append("email="+data["professor_email"] if "professor_email" in data else "")
-    set_params.append("city="+data["professor_city"] if "professor_city" in data else "")
-    set_params.append("phone_number="+data["professor_phone"] if "professor_phone" in data else "")
-    set_params.append("address="+data["professor_address"] if "professor_address" in data else "")
-    set_params.append("office="+data["professor_office"] if "professor_office" in data else "")
+        set_params= []
+        set_params.append("name="+data["professor_name"] if "professor_name" in data else "")
+        set_params.append("email="+data["professor_email"] if "professor_email" in data else "")
+        set_params.append("city="+data["professor_city"] if "professor_city" in data else "")
+        set_params.append("phone_number="+data["professor_phone"] if "professor_phone" in data else "")
+        set_params.append("address="+data["professor_address"] if "professor_address" in data else "")
+        set_params.append("office="+data["professor_office"] if "professor_office" in data else "")
 
-    try:
-        cur.execute(f"UPDATE professor SET "+ ",".join(set_params))
-        mysql.connection.commit()
-        return {'status': 'success'}
-    except Exception as e:
-        print(e)
-        return {'status': 'unsuccessful'}
+        try:
+            cur.execute(f"UPDATE professor SET "+ ",".join(set_params))
+            mysql.connection.commit()
+            return {'status': 'success'}
+        except Exception as e:
+            print(e)
+            return {'status': 'unsuccessful'}
+
+
+@app.route('/students/section_selection', methods=['POST'])
+def student_section_selection():
+    data = request.get_json()
+    if not login_check_student(data):
+        msg = 'Incorrect username / password !'
+        return {'msg': msg}, 401
+    if request.method == 'POST':
+        cur = mysql.connection.cursor()
+        username = data["username"]
+        sectionIds = data["sectionIds"]
+
+
+        # TODO: more checks before query
+        try:
+            for id in sectionIds:
+                cur.execute(f'''INSERT INTO student_has_section (Student_ssn,Section_idSection) values ({username}, {id})''')
+            mysql.connection.commit()
+            return {'status': 'success'}
+        except Exception as e:
+            print(e)
+            return {'status': 'unsuccessful'}
+
+
+@app.route('/students/notifications', methods=['GET'])
+def get_student_notifications():
+    data = request.get_json()
+    if not login_check_student(data):
+        msg = 'Incorrect username / password !'
+        return {'msg': msg}, 401
+    if request.method == 'GET':
+        cur = mysql.connection.cursor()
+        username = data["username"]
+
+        try:
+            cur.execute(f'''SELECT Professor_idProfessor,Section_idSection,text,date FROM notificatoin n, student_has_section shs
+                    where n.Section_idSection = shs.Section_idSection and shs.Student_ssn = {username};''')
+            rv = cur.fetchall()
+            return dumps(rv)
+        except Exception as e:
+            print(e)
+            return {'status': 'unsuccessful'}
+
+@app.route('/professors/send_notification', methods=['POST'])
+def professor_send_notification():
+    data = request.get_json()
+    if login_check_professor(data):
+        msg = 'Incorrect username / password !'
+        return {'msg': msg}, 401
+    if request.method == 'POST':
+        cur = mysql.connection.cursor()
+        username = data["username"]
+        text = data["text"]
+        # TODO: check if professor has access to section
+        sectionId = data["sectionId"]
+        date = datetime.now().strftime('%Y-%m-%d')
+
+        try:
+            cur.execute(f'''INSERT INTO notificatoin (Professor_idProfessor,Section_idSection,text,date) values ({username}, {sectionId}, "{text}", "{date}")''')
+            mysql.connection.commit()
+            return {'status': 'success'}
+        except Exception as e:
+            print(e)
+            return {'status': 'unsuccessful'}
+
 if __name__ == '__main__':
     app.run(debug=True)
