@@ -361,10 +361,10 @@ def show_meet():
         return {'msg': msg}, 401
     cur = mysql.connection.cursor()
     username = data['username']
-    cur.execute(f'''SELECT c.Course_name, count(m.Student_ssn) as Number_of_absences
-                    FROM meet m, section s, course c
-                    where m.Student_ssn = {username} and s.idsection = m.Section_idSection and s.Course_idCourse = c.idcourse
-                    group by c.Course_name;''')
+    cur.execute(f'''SELECT c.Course_name, m.presence, m.date
+                    FROM student stu,meet m, section s, course c, meet m1
+                    where stu.ssn=m.Student_ssn and m.Student_ssn = {username} and s.idsection = m.Section_idSection and s.Course_idCourse = c.idcourse
+                    ''')
 
     rv = cur.fetchall()
     print(rv)
