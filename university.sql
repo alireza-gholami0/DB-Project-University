@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: university
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.32
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -595,15 +595,13 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `student_has_foodschedule_AFTER_INSERT` AFTER INSERT ON `student_has_foodschedule` FOR EACH ROW BEGIN
-  DECLARE food_price INT;
-  SELECT Food_price INTO food_price FROM food WHERE idFood = (SELECT Food_idFood FROM foodschedule WHERE idFoodSchedule = NEW.FoodSchedule_idFoodSchedule);
-  IF food_price <= (SELECT student_balance FROM student WHERE ssn = NEW.Student_ssn) THEN
-    UPDATE student SET student_balance = student_balance - food_price WHERE ssn = NEW.Student_ssn;
+ set @price = (SELECT distinct Food_price FROM food WHERE idFood = (SELECT Food_idFood FROM foodschedule WHERE idFoodSchedule = NEW.FoodSchedule_idFoodSchedule));
+  IF @price <= (SELECT student_balance FROM student WHERE ssn = NEW.Student_ssn) THEN
+    UPDATE student SET student_balance = student_balance - @price WHERE ssn = NEW.Student_ssn;
   ELSE
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient balance';
   END IF;
-update foodschedule set count = count + 1 where NEW.FoodSchedule_idFoodSchedule = idfoodschedule;
-end */;;
+  end */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -1014,4 +1012,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-03 13:55:50
+-- Dump completed on 2023-07-03 13:40:08
