@@ -90,11 +90,13 @@ def exam_schedule():
                     where s.ssn = {username} and s.ssn = she.Student_ssn and e.idExam = she.Exam_idExam ;''')
 
     rv = cur.fetchall()
-    print(rv)
-    return dumps(rv, default=str)
+    rt = {'desc' : ['seciton id','exam date','exam time'],
+          'data' : rv}
+    print(rt)
+    return dumps(rt, default=str)
 
-@app.route('/grad_report', methods=['GET'])
-def exam_schedule():
+@app.route('/grade_report', methods=['GET'])
+def grade_report():
     data = request.get_json()
     if not login_check_student(data):
         msg = 'Incorrect username / password !'
@@ -103,11 +105,13 @@ def exam_schedule():
     username = data['username']
     cur.execute(f'''SELECT c.Course_name, section_idsection,student_mark,is_passed,is_removerd,is_signed
                 FROM course as c,section as s, student_has_section as shs
-                where shs.student_ssn = {username} and shs.Section_idSection = s.idSection  and s.Course_idCourse = c.idcorse; ;''')
+                where shs.student_ssn = {username} and shs.Section_idSection = s.idSection  and s.Course_idCourse = c.idcourse; ;''')
 
     rv = cur.fetchall()
-    print(rv)
-    return dumps(rv, default=str)
+    rt = {'desc' : ['course name','section id','student mark','is passed','is removed', 'is signed' ],
+          'data' : rv}
+    print(rt)
+    return dumps(rt, default=str)
 
 if __name__ == '__main__':
     app.run(debug=True)
