@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: university
 -- ------------------------------------------------------
@@ -219,7 +219,6 @@ CREATE TABLE `foodschedule` (
   `idFoodSchedule` int NOT NULL AUTO_INCREMENT,
   `Food_idFood` int NOT NULL,
   `FoodSchedule_date` date NOT NULL,
-  `count` int DEFAULT '0',
   PRIMARY KEY (`idFoodSchedule`),
   KEY `fk_FoodSchedule_Food1_idx` (`Food_idFood`),
   CONSTRAINT `fk_FoodSchedule_Food1` FOREIGN KEY (`Food_idFood`) REFERENCES `food` (`idFood`)
@@ -232,7 +231,7 @@ CREATE TABLE `foodschedule` (
 
 LOCK TABLES `foodschedule` WRITE;
 /*!40000 ALTER TABLE `foodschedule` DISABLE KEYS */;
-INSERT INTO `foodschedule` VALUES (1,1,'2023-07-02',0),(2,2,'2023-07-03',1),(3,3,'2023-07-04',0),(4,4,'2023-07-05',0),(5,5,'2023-07-06',0),(6,6,'2023-07-07',0),(7,7,'2023-07-08',0),(8,1,'2023-07-09',0),(9,2,'2023-07-10',0),(10,4,'2023-07-11',0),(11,3,'2023-07-11',0);
+INSERT INTO `foodschedule` VALUES (1,1,'2023-07-02'),(2,2,'2023-07-03'),(3,3,'2023-07-04'),(4,4,'2023-07-05'),(5,5,'2023-07-06'),(6,6,'2023-07-07'),(7,7,'2023-07-08'),(8,1,'2023-07-09'),(9,2,'2023-07-10'),(10,4,'2023-07-11'),(11,3,'2023-07-11');
 /*!40000 ALTER TABLE `foodschedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -393,22 +392,9 @@ CREATE TABLE `professor` (
 
 LOCK TABLES `professor` WRITE;
 /*!40000 ALTER TABLE `professor` DISABLE KEYS */;
-INSERT INTO `professor` VALUES (1,1,'123 Main St',101,'john.smith@university.edu','John Smith',5551234,'PhD',2020,NULL,'password123'),(2,2,'456 Elm St',202,'jane.doe@university.edu','Jane Doe',5555678,'MS',2018,NULL,'password456'),(3,3,'789 Oak St',303,'bob.johnson@university.edu','Bob Johnson',5559012,'PhD',2021,NULL,'password789'),(4,4,'321 Cherry St',404,'sarah.lee@university.edu','Sarah Lee',5553456,'PhD',2019,NULL,'password101'),(5,5,'654 Pine St',505,'david.kim@university.edu','David Kim',5557890,'MS',2017,NULL,'password202'),(6,6,'987 Maple St',606,'mary.park@university.edu','Mary Park',5552345,'PhD',2022,NULL,'password303'),(7,7,'123 Oak St',707,'john.doe@university.edu','John Doe',5559876,'PhD',2020,NULL,'password404'),(8,8,'456 Elm St',808,'jane.smith@university.edu','Jane Smith',5554321,'MS',2018,NULL,'password505'),(9,9,'789 Pine St',909,'bob.lee@university.edu','Bob Lee',5556789,'PhD',2021,NULL,'password606'),(10,10,'321 Cherry St',1010,'sarah.kim@university.edu','Sarah Kim',5559012,'PhD',2019,NULL,'password707'),(11,5,'654 Pine St',505,'david.kim@university.edu','David Kim',5557890,'MS',2017,NULL,'password202'),(12,6,'987 Maple St',606,'alice.park@university.edu','Alice Park',5552345,'PhD',2022,NULL,'password303'),(13,7,'123 Oak St',707,'james.lee@university.edu','James Lee',5559876,'PhD',2020,NULL,'password404'),(14,8,'456 Elm St',808,'emily.chung@university.edu','Emily Chung',5554321,'MS',2018,NULL,'password505'),(15,9,'789 Pine St',909,'william.kim@university.edu','William Kim',5556789,'PhD',2021,NULL,'password606'),(16,1,'321 Cherry St',1010,'grace.lee@university.edu','Grace Lee',5559012,'PhD',2019,NULL,'password707'),(17,4,'654 Maple St',1111,'daniel.park@university.edu','Daniel Park',5553456,'PhD',2022,NULL,'password808'),(18,2,'987 Oak St',1212,'sophie.kim@university.edu','Sophie Kim',5557890,'MS',2017,NULL,'password909'),(19,3,'456 Oak St',202,'asmith@email.com','Amy Smith',5555678,'MS',2015,NULL,'password456'),(20,5,'789 Walnut St',303,'rjones@email.com','Robert Jones',5559012,'PhD',2005,NULL,'password789'),(21,3,'321 Maple St',404,'klee@email.com','Karen Lee',5553456,'MS',2020,NULL,'password101'),(22,6,'654 Birch St',505,'jwang@email.com','James Wang',5557890,'PhD',2012,NULL,'password202'),(23,4,'987 Pine St',606,'mchen@email.com','Michelle Chen',5552345,'MS',2018,NULL,'password303'),(24,7,'234 Cedar St',707,'rpatel@email.com','Raj Patel',5556789,'PhD',2008,NULL,'password404'),(25,9,'567 Elm St',808,'tlee@email.com','Tina Lee',5551234,'MS',2016,NULL,'password505'),(26,8,'876 Oak St',909,'rsmith@email.com','Ryan Smith',5555678,'PhD',2003,NULL,'password606'),(27,10,'123 Maple St',1010,'jlee@email.com','Jin Lee',5559012,'MS',2019,NULL,'password707'),(28,2,'456 Main St',102,'jchang@email.com','Jennifer Chang',5552345,'MS',2017,NULL,'password808'),(29,5,'789 Oak St',203,'jchen@email.com','Jason Chen',5556789,'PhD',2009,NULL,'password909'),(30,1,'321 Walnut St',304,'amiller@email.com','Anna Miller',5551234,'MS',2014,NULL,'password1010'),(31,3,'654 Maple St',405,'mlee@email.com','Michael Lee',5555678,'PhD',2011,NULL,'password111'),(32,6,'987 Birch St',506,'jzhang@email.com','Jenny Zhang',5559012,'MS',2018,NULL,'password222'),(33,4,'234 Pine St',607,'jzhou@email.com','Jessica Zhou',5553456,'PhD',2007,NULL,'password333'),(34,7,'567 Cedar St',708,'jwang@email.com','Jenny Wang',5557890,'MS',2015,NULL,'password444'),(35,9,'876 Elm St',809,'tnguyen@email.com','Tom Nguyen',5552345,'PhD',2004,NULL,'password555'),(36,8,'123 Oak St',910,'jlee@email.com','Jenny Lee',5556789,'MS',2021,NULL,'password666'),(37,10,'456 Maple St',1011,'mliu@email.com','Michelle Liu',5551234,'PhD',2006,NULL,'password777');
+INSERT INTO `professor` VALUES (1,1,'123 Main St',101,'john.smith@university.edu','John Smith',5551234,'PhD',2020,80,'password123'),(2,2,'456 Elm St',202,'jane.doe@university.edu','Jane Doe',5555678,'MS',2018,89,'password456'),(3,3,'789 Oak St',303,'bob.johnson@university.edu','Bob Johnson',5559012,'PhD',2021,90,'password789'),(4,4,'321 Cherry St',404,'sarah.lee@university.edu','Sarah Lee',5553456,'PhD',2019,98,'password101'),(5,5,'654 Pine St',505,'david.kim@university.edu','David Kim',5557890,'MS',2017,78,'password202'),(6,6,'987 Maple St',606,'mary.park@university.edu','Mary Park',5552345,'PhD',2022,90,'password303'),(7,7,'123 Oak St',707,'john.doe@university.edu','John Doe',5559876,'PhD',2020,66,'password404'),(8,8,'456 Elm St',808,'jane.smith@university.edu','Jane Smith',5554321,'MS',2018,87,'password505'),(9,9,'789 Pine St',909,'bob.lee@university.edu','Bob Lee',5556789,'PhD',2021,67,'password606'),(10,10,'321 Cherry St',1010,'sarah.kim@university.edu','Sarah Kim',5559012,'PhD',2019,90,'password707'),(11,5,'654 Pine St',505,'david.kim@university.edu','David Kim',5557890,'MS',2017,94,'password202'),(12,6,'987 Maple St',606,'alice.park@university.edu','Alice Park',5552345,'PhD',2022,30,'password303'),(13,7,'123 Oak St',707,'james.lee@university.edu','James Lee',5559876,'PhD',2020,90,'password404'),(14,8,'456 Elm St',808,'emily.chung@university.edu','Emily Chung',5554321,'MS',2018,89,'password505'),(15,9,'789 Pine St',909,'william.kim@university.edu','William Kim',5556789,'PhD',2021,88,'password606'),(16,1,'321 Cherry St',1010,'grace.lee@university.edu','Grace Lee',5559012,'PhD',2019,78,'password707'),(17,4,'654 Maple St',1111,'daniel.park@university.edu','Daniel Park',5553456,'PhD',2022,68,'password808'),(18,2,'987 Oak St',1212,'sophie.kim@university.edu','Sophie Kim',5557890,'MS',2017,91,'password909'),(19,3,'456 Oak St',202,'asmith@email.com','Amy Smith',5555678,'MS',2015,82,'password456'),(20,5,'789 Walnut St',303,'rjones@email.com','Robert Jones',5559012,'PhD',2005,79,'password789'),(21,3,'321 Maple St',404,'klee@email.com','Karen Lee',5553456,'MS',2020,95,'password101'),(22,6,'654 Birch St',505,'jwang@email.com','James Wang',5557890,'PhD',2012,84,'password202'),(23,4,'987 Pine St',606,'mchen@email.com','Michelle Chen',5552345,'MS',2018,85,'password303'),(24,7,'234 Cedar St',707,'rpatel@email.com','Raj Patel',5556789,'PhD',2008,86,'password404'),(25,9,'567 Elm St',808,'tlee@email.com','Tina Lee',5551234,'MS',2016,88,'password505'),(26,8,'876 Oak St',909,'rsmith@email.com','Ryan Smith',5555678,'PhD',2003,86,'password606'),(27,10,'123 Maple St',1010,'jlee@email.com','Jin Lee',5559012,'MS',2019,87,'password707'),(28,2,'456 Main St',102,'jchang@email.com','Jennifer Chang',5552345,'MS',2017,78,'password808'),(29,5,'789 Oak St',203,'jchen@email.com','Jason Chen',5556789,'PhD',2009,94,'password909'),(30,1,'321 Walnut St',304,'amiller@email.com','Anna Miller',5551234,'MS',2014,92,'password1010'),(31,3,'654 Maple St',405,'mlee@email.com','Michael Lee',5555678,'PhD',2011,90,'password111'),(32,6,'987 Birch St',506,'jzhang@email.com','Jenny Zhang',5559012,'MS',2018,81,'password222'),(33,4,'234 Pine St',607,'jzhou@email.com','Jessica Zhou',5553456,'PhD',2007,90,'password333'),(34,7,'567 Cedar St',708,'jwang@email.com','Jenny Wang',5557890,'MS',2015,80,'password444'),(35,9,'876 Elm St',809,'tnguyen@email.com','Tom Nguyen',5552345,'PhD',2004,79,'password555'),(36,8,'123 Oak St',910,'jlee@email.com','Jenny Lee',5556789,'MS',2021,78,'password666'),(37,10,'456 Maple St',1011,'mliu@email.com','Michelle Liu',5551234,'PhD',2006,67,'password777');
 /*!40000 ALTER TABLE `professor` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Temporary view structure for view `professor_grades`
---
-
-DROP TABLE IF EXISTS `professor_grades`;
-/*!50001 DROP VIEW IF EXISTS `professor_grades`*/;
-SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `professor_grades` AS SELECT 
- 1 AS `idProfessor`,
- 1 AS `avg_mark`*/;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Temporary view structure for view `professors_calendar`
@@ -426,6 +412,19 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `roomno`,
  1 AS `day_of_week`,
  1 AS `time`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `proforssor_garades`
+--
+
+DROP TABLE IF EXISTS `proforssor_garades`;
+/*!50001 DROP VIEW IF EXISTS `proforssor_garades`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `proforssor_garades` AS SELECT 
+ 1 AS `idProfessor`,
+ 1 AS `avg(shs.professor_mark)`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -525,7 +524,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (1,6,'Ethan Moore','ethanmoore@email.com','Miami',5553456,'123 Pine St.',2020,92,4400,'password34'),(2,1,'Abigail Nelson','abigailnelson@email.com','New York',5556789,'456 Cedar St.',2018,96,4900,'password35'),(3,9,'Natalie Parker','natalieparker@email.com','Los Angeles',5551234,'789 Maple St.',2021,85,4300,'password36'),(4,3,'Christopher Perez','christopherperez@email.com','Chicago',5555678,'234 Oak St.',2019,91,4100,'password37'),(5,4,'Avery Phillips','averyphillips@email.com','Dallas',5559012,'567 Pine St.',2022,90,4000,'password38'),(6,6,'Isabella Ramirez','isabellaramirez@email.com','San Francisco',5553456,'890 Cedar St.',2020,92,4400,'password39'),(7,8,'David Reed','davidreed@email.com','Miami',5556789,'123 Maple St.',2018,94,4700,'password40'),(8,2,'Kaitlyn Richardson','kaitlynrichardson@email.com','New York',5551234,'456 Oak St.',2021,88,4200,'password41'),(9,5,'Tyler Rivera','tylerrivera@email.com','Los Angeles',5555678,'789 Pine St.',2019,93,4600,'password42'),(10,7,'Sophia Robinson','sophiarobinson@email.com','Chicago',5559012,'234 Cedar St.',2022,90,4500,'password43'),(11,3,'David Lee','davidlee@email.com','Chicago',5553456,'789 Pine St.',2019,75,488,'password3'),(12,4,'Karen Chen','karenchen@email.com','Houston',5554567,'101 Elm St.',2020,88,2000,'password4'),(13,5,'Michael Brown','michaelbrown@email.com','Philadelphia',5555678,'234 Maple Ln.',2018,91,2500,'password5'),(14,1,'Jennifer Davis','jenniferdavis@email.com','Phoenix',5556789,'567 Cedar Rd.',2017,79,800,'password6'),(15,2,'Robert Kim','robertkim@email.com','San Antonio',5557890,'890 Birch Dr.',2022,83,1200,'password7'),(16,3,'Susan Lee','susanlee@email.com','San Diego',5558901,'111 Walnut St.',2021,87,3000,'password8'),(17,4,'Richard Jones','richardjones@email.com','Dallas',5559012,'222 Cherry Ave.',2019,90,4000,'password9'),(18,7,'Emily Williams','emilywilliams@email.com','Seattle',5551234,'123 Main St.',2020,95,4500,'password1'),(19,2,'Michael Johnson','michaeljohnson@email.com','Houston',5555678,'456 Elm St.',2021,88,4200,'password2'),(20,3,'Jennifer Brown','jenniferbrown@email.com','San Francisco',5559012,'789 Oak St.',2019,91,4100,'password3'),(21,9,'Christopher Davis','christopherdavis@email.com','Miami',5553456,'234 Pine St.',2022,85,4300,'password4'),(22,5,'Jessica Garcia','jessicagarcia@email.com','New York',5556789,'567 Cedar St.',2020,93,4600,'password5'),(23,2,'Matthew Hernandez','matthewhernandez@email.com','Los Angeles',5551234,'901 Maple St.',2021,87,4200,'password6'),(24,6,'Amanda Martinez','amandamartinez@email.com','Chicago',5555678,'234 Oak St.',2019,92,4400,'password7'),(25,7,'David Rodriguez','davidrodriguez@email.com','Dallas',5559012,'567 Pine St.',2022,90,4500,'password8'),(26,10,'Ashley Wilson','ashleywilson@email.com','San Francisco',5553456,'890 Cedar St.',2018,85,4800,'password9'),(27,3,'Daniel Anderson','danielanderson@email.com','Miami',5556789,'123 Maple St.',2020,89,4100,'password10'),(28,8,'Sarah Baker','sarahbaker@email.com','New York',5551234,'456 Oak St.',2021,94,4700,'password11'),(29,9,'Robert Carter','robertcarter@email.com','Los Angeles',5555678,'789 Pine St.',2019,85,4300,'password12'),(30,5,'Stephanie Clark','stephanieclark@email.com','Chicago',5559012,'234 Cedar St.',2022,92,4600,'password13'),(31,4,'Anthony Davis','anthonydavis@email.com','Dallas',5553456,'567 Maple St.',2020,90,4000,'password14'),(32,6,'Melissa Edwards','melissaedwards@email.com','San Francisco',5556789,'901 Oak St.',2018,87,4400,'password15'),(33,2,'Jonathan Evans','jonathanevans@email.com','Miami',5551234,'234 Pine St.',2021,88,4200,'password16'),(34,8,'Nicholas Flores','nicholasflores@email.com','New York',5555678,'567 Cedar St.',2019,94,4700,'password17'),(35,9,'Samantha Garcia','samanthagarcia@email.com','Los Angeles',5559012,'890 Oak St.',2022,85,4300,'password18'),(36,3,'Hannah Gonzalez','hannahgonzalez@email.com','Chicago',5553456,'123 Pine St.',2020,91,4100,'password19'),(37,7,'Brandon Green','brandongreen@email.com','Dallas',5556789,'456 Maple St.',2018,90,4500,'password20'),(38,2,'Elizabeth Hall','elizabethhall@email.com','San Francisco',5551234,'789 Oak St.',2021,87,4200,'password21'),(39,8,'Christopher Harris','christopherharris@email.com','Miami',5555678,'234 Cedar St.',2019,94,4700,'password22'),(40,6,'Victoria Hernandez','victoriahernandez@email.com','New York',5559012,'567 Pine St.',2022,92,4400,'password23'),(41,4,'Jacob Hill','jacobhill@email.com','Los Angeles',5553456,'890 Cedar St.',2020,90,4000,'password24'),(42,1,'Megan Jackson','meganjackson@email.com','Chicago',5556789,'123 Maple St.',2018,96,4900,'password25'),(43,6,'William Johnson','williamjohnson@email.com','Dallas',5551234,'456 Oak St.',2021,92,4400,'password26'),(44,3,'Madison Jones','madisonjones@email.com','San Francisco',5555678,'789 Pine St.',2019,91,4100,'password27'),(45,5,'Joshua King','joshuaking@email.com','Miami',5559012,'234 Cedar St.',2022,93,4600,'password28'),(46,9,'Lauren Lee','laurenlee@email.com','New York',5553456,'567 Oak St.',2020,85,4300,'password29'),(47,2,'Christopher Lewis','christopherlewis@email.com','Los Angeles',5556789,'901 Pine St.',2018,88,4200,'password30'),(48,7,'Olivia Martinez','oliviamartinez@email.com','Chicago',5551234,'234 Maple St.',2021,90,4500,'password31'),(49,8,'Andrew Martin','andrewmartin@email.com','Dallas',5555678,'567 Cedar St.',2019,94,4700,'password32'),(50,5,'Makayla Mitchell','makaylamitchell@email.com','San Francisco',5559012,'890 Oak St.',2022,93,4600,'password33');
+INSERT INTO `student` VALUES (1,6,'Ethan Moore','ethanmoore@email.com','Miami',5553456,'123 Pine St.',2020,92,4400,'password34'),(2,1,'Abigail Nelson','abigailnelson@email.com','New York',5556789,'456 Cedar St.',2018,96,4900,'password35'),(3,9,'Natalie Parker','natalieparker@email.com','Los Angeles',5551234,'789 Maple St.',2021,85,4300,'password36'),(4,3,'Christopher Perez','christopherperez@email.com','Chicago',5555678,'234 Oak St.',2019,91,4100,'password37'),(5,4,'Avery Phillips','averyphillips@email.com','Dallas',5559012,'567 Pine St.',2022,90,4000,'password38'),(6,6,'Isabella Ramirez','isabellaramirez@email.com','San Francisco',5553456,'890 Cedar St.',2020,92,4400,'password39'),(7,8,'David Reed','davidreed@email.com','Miami',5556789,'123 Maple St.',2018,94,4700,'password40'),(8,2,'Kaitlyn Richardson','kaitlynrichardson@email.com','New York',5551234,'456 Oak St.',2021,88,4200,'password41'),(9,5,'Tyler Rivera','tylerrivera@email.com','Los Angeles',5555678,'789 Pine St.',2019,93,4600,'password42'),(10,7,'Sophia Robinson','sophiarobinson@email.com','Chicago',5559012,'234 Cedar St.',2022,90,4500,'password43'),(11,3,'David Lee','davidlee@email.com','Chicago',5553456,'789 Pine St.',2019,75,500,'password3'),(12,4,'Karen Chen','karenchen@email.com','Houston',5554567,'101 Elm St.',2020,88,2000,'password4'),(13,5,'Michael Brown','michaelbrown@email.com','Philadelphia',5555678,'234 Maple Ln.',2018,91,2500,'password5'),(14,1,'Jennifer Davis','jenniferdavis@email.com','Phoenix',5556789,'567 Cedar Rd.',2017,79,800,'password6'),(15,2,'Robert Kim','robertkim@email.com','San Antonio',5557890,'890 Birch Dr.',2022,83,1200,'password7'),(16,3,'Susan Lee','susanlee@email.com','San Diego',5558901,'111 Walnut St.',2021,87,3000,'password8'),(17,4,'Richard Jones','richardjones@email.com','Dallas',5559012,'222 Cherry Ave.',2019,90,4000,'password9'),(18,7,'Emily Williams','emilywilliams@email.com','Seattle',5551234,'123 Main St.',2020,95,4500,'password1'),(19,2,'Michael Johnson','michaeljohnson@email.com','Houston',5555678,'456 Elm St.',2021,88,4200,'password2'),(20,3,'Jennifer Brown','jenniferbrown@email.com','San Francisco',5559012,'789 Oak St.',2019,91,4100,'password3'),(21,9,'Christopher Davis','christopherdavis@email.com','Miami',5553456,'234 Pine St.',2022,85,4300,'password4'),(22,5,'Jessica Garcia','jessicagarcia@email.com','New York',5556789,'567 Cedar St.',2020,93,4600,'password5'),(23,2,'Matthew Hernandez','matthewhernandez@email.com','Los Angeles',5551234,'901 Maple St.',2021,87,4200,'password6'),(24,6,'Amanda Martinez','amandamartinez@email.com','Chicago',5555678,'234 Oak St.',2019,92,4400,'password7'),(25,7,'David Rodriguez','davidrodriguez@email.com','Dallas',5559012,'567 Pine St.',2022,90,4500,'password8'),(26,10,'Ashley Wilson','ashleywilson@email.com','San Francisco',5553456,'890 Cedar St.',2018,85,4800,'password9'),(27,3,'Daniel Anderson','danielanderson@email.com','Miami',5556789,'123 Maple St.',2020,89,4100,'password10'),(28,8,'Sarah Baker','sarahbaker@email.com','New York',5551234,'456 Oak St.',2021,94,4700,'password11'),(29,9,'Robert Carter','robertcarter@email.com','Los Angeles',5555678,'789 Pine St.',2019,85,4300,'password12'),(30,5,'Stephanie Clark','stephanieclark@email.com','Chicago',5559012,'234 Cedar St.',2022,92,4600,'password13'),(31,4,'Anthony Davis','anthonydavis@email.com','Dallas',5553456,'567 Maple St.',2020,90,4000,'password14'),(32,6,'Melissa Edwards','melissaedwards@email.com','San Francisco',5556789,'901 Oak St.',2018,87,4400,'password15'),(33,2,'Jonathan Evans','jonathanevans@email.com','Miami',5551234,'234 Pine St.',2021,88,4200,'password16'),(34,8,'Nicholas Flores','nicholasflores@email.com','New York',5555678,'567 Cedar St.',2019,94,4700,'password17'),(35,9,'Samantha Garcia','samanthagarcia@email.com','Los Angeles',5559012,'890 Oak St.',2022,85,4300,'password18'),(36,3,'Hannah Gonzalez','hannahgonzalez@email.com','Chicago',5553456,'123 Pine St.',2020,91,4100,'password19'),(37,7,'Brandon Green','brandongreen@email.com','Dallas',5556789,'456 Maple St.',2018,90,4500,'password20'),(38,2,'Elizabeth Hall','elizabethhall@email.com','San Francisco',5551234,'789 Oak St.',2021,87,4200,'password21'),(39,8,'Christopher Harris','christopherharris@email.com','Miami',5555678,'234 Cedar St.',2019,94,4700,'password22'),(40,6,'Victoria Hernandez','victoriahernandez@email.com','New York',5559012,'567 Pine St.',2022,92,4400,'password23'),(41,4,'Jacob Hill','jacobhill@email.com','Los Angeles',5553456,'890 Cedar St.',2020,90,4000,'password24'),(42,1,'Megan Jackson','meganjackson@email.com','Chicago',5556789,'123 Maple St.',2018,96,4900,'password25'),(43,6,'William Johnson','williamjohnson@email.com','Dallas',5551234,'456 Oak St.',2021,92,4400,'password26'),(44,3,'Madison Jones','madisonjones@email.com','San Francisco',5555678,'789 Pine St.',2019,91,4100,'password27'),(45,5,'Joshua King','joshuaking@email.com','Miami',5559012,'234 Cedar St.',2022,93,4600,'password28'),(46,9,'Lauren Lee','laurenlee@email.com','New York',5553456,'567 Oak St.',2020,85,4300,'password29'),(47,2,'Christopher Lewis','christopherlewis@email.com','Los Angeles',5556789,'901 Pine St.',2018,88,4200,'password30'),(48,7,'Olivia Martinez','oliviamartinez@email.com','Chicago',5551234,'234 Maple St.',2021,90,4500,'password31'),(49,8,'Andrew Martin','andrewmartin@email.com','Dallas',5555678,'567 Cedar St.',2019,94,4700,'password32'),(50,5,'Makayla Mitchell','makaylamitchell@email.com','San Francisco',5559012,'890 Oak St.',2022,93,4600,'password33');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -553,7 +552,6 @@ CREATE TABLE `student_has_exam` (
 
 LOCK TABLES `student_has_exam` WRITE;
 /*!40000 ALTER TABLE `student_has_exam` DISABLE KEYS */;
-INSERT INTO `student_has_exam` VALUES (4,1),(10,1),(4,2),(8,2),(10,2),(4,3),(8,3),(10,3),(1,4),(5,4),(10,4),(4,5),(10,5),(1,6),(5,6),(1,7),(5,7),(1,8),(5,8),(1,9),(5,9),(2,10),(4,10),(6,10),(8,10),(2,11),(6,11),(2,12),(6,12),(2,13),(6,13),(2,14),(6,14),(3,15),(7,15),(3,16),(7,16),(3,17),(7,17),(3,18),(7,18),(3,19),(7,19);
 /*!40000 ALTER TABLE `student_has_exam` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -581,7 +579,6 @@ CREATE TABLE `student_has_foodschedule` (
 
 LOCK TABLES `student_has_foodschedule` WRITE;
 /*!40000 ALTER TABLE `student_has_foodschedule` DISABLE KEYS */;
-INSERT INTO `student_has_foodschedule` VALUES (11,2);
 /*!40000 ALTER TABLE `student_has_foodschedule` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -594,15 +591,14 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `student_has_foodschedule_AFTER_INSERT` AFTER INSERT ON `student_has_foodschedule` FOR EACH ROW BEGIN
-
- set @food_price = (SELECT Food_price FROM food WHERE idFood = (SELECT Food_idFood FROM foodschedule WHERE idFoodSchedule = NEW.FoodSchedule_idFoodSchedule));
-  IF @food_price <= (SELECT student_balance FROM student WHERE ssn = NEW.Student_ssn) THEN
-    UPDATE student SET student_balance = student_balance - @food_price WHERE ssn = NEW.Student_ssn;
+  DECLARE food_price INT;
+  SELECT Food_price INTO food_price FROM food WHERE idFood = (SELECT Food_idFood FROM foodschedule WHERE idFoodSchedule = NEW.FoodSchedule_idFoodSchedule);
+  IF food_price <= (SELECT student_balance FROM student WHERE ssn = NEW.Student_ssn) THEN
+    UPDATE student SET student_balance = student_balance - food_price WHERE ssn = NEW.Student_ssn;
   ELSE
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient balance';
   END IF;
-	update foodschedule set count = count + 1 where NEW.FoodSchedule_idFoodSchedule = idfoodschedule;
-end */;;
+  end */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -656,39 +652,6 @@ DELIMITER ;;
   WHERE NEW.Student_ssn = Student_ssn;
   IF NEW.section_idsection NOT IN (select section_idsection from exam) then
   INSERT INTO exam(exam_date, exam_time, section_idsection) (select exam_date, exam_time, NEW.Section_idSection from section s where s.idsection = NEW.section_idsection);
-  INSERT into student_has_exam (select NEW.Student_ssn, idExam from exam where NEW.Section_idSection = exam.Section_idSection);
-END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `update_professor_avg_mark` AFTER INSERT ON `student_has_section` FOR EACH ROW BEGIN 
-IF NEW.professor_mark iS NOT NULL THEN 
-	SET @pid = ( SELECT p.idProfessor
-					FROM
-						`section` as s,
-						`professor` as p
-					WHERE
-						s.Professor_idProfessor = p.idProfessor
-						AND s.idSection = NEW.Section_idSection
-				);
-	UPDATE
-		`professor`
-	SET
-		avg_mark = ( SELECT avg_mark FROM professor_grades WHERE idProfessor = @pid )
-	WHERE
-		idProfessor = @pid;
 END IF;
 END */;;
 DELIMITER ;
@@ -899,24 +862,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Final view structure for view `professor_grades`
---
-
-/*!50001 DROP VIEW IF EXISTS `professor_grades`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `professor_grades` AS select `p`.`idProfessor` AS `idProfessor`,avg(`shs`.`professor_mark`) AS `avg_mark` from ((`professor` `p` join `student_has_section` `shs`) join `section` `s`) where ((`p`.`idProfessor` = `s`.`Professor_idProfessor`) and (`shs`.`Section_idSection` = `s`.`idSection`)) group by `p`.`idProfessor` */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
 -- Final view structure for view `professors_calendar`
 --
 
@@ -930,6 +875,24 @@ SET character_set_client = @saved_cs_client;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `professors_calendar` AS select `p`.`idProfessor` AS `idProfessor`,`p`.`name` AS `name`,`s`.`idSection` AS `idSection`,`d`.`iddates` AS `iddates`,`d`.`roomno` AS `roomno`,`d`.`day_of_week` AS `day_of_week`,`d`.`time` AS `time` from ((`professor` `p` join `section` `s`) join `dates` `d`) where ((`p`.`idProfessor` = `s`.`Professor_idProfessor`) and (`s`.`idSection` = `d`.`Section_idSection`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `proforssor_garades`
+--
+
+/*!50001 DROP VIEW IF EXISTS `proforssor_garades`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `proforssor_garades` AS select `p`.`idProfessor` AS `idProfessor`,avg(`shs`.`professor_mark`) AS `avg(shs.professor_mark)` from ((`professor` `p` join `student_has_section` `shs`) join `section` `s`) where ((`p`.`idProfessor` = `s`.`Professor_idProfessor`) and (`shs`.`Section_idSection` = `s`.`idSection`)) group by `p`.`idProfessor` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -997,4 +960,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-02 21:22:39
+-- Dump completed on 2023-07-03  9:24:44
