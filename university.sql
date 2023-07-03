@@ -302,7 +302,7 @@ CREATE TABLE `meet` (
   `Section_idSection` int NOT NULL,
   `presence` tinyint(1) NOT NULL DEFAULT '0',
   `date` date NOT NULL,
-  PRIMARY KEY (`Student_ssn`,`Section_idSection`),
+  PRIMARY KEY (`Student_ssn`,`Section_idSection`,`date`),
   KEY `fk_Student_has_Section1_Student1_idx` (`Student_ssn`),
   KEY `fk_Meet_Section1_idx` (`Section_idSection`),
   CONSTRAINT `fk_Meet_Section1` FOREIGN KEY (`Section_idSection`) REFERENCES `section` (`idSection`),
@@ -316,6 +316,7 @@ CREATE TABLE `meet` (
 
 LOCK TABLES `meet` WRITE;
 /*!40000 ALTER TABLE `meet` DISABLE KEYS */;
+INSERT INTO `meet` VALUES (2,10,1,'2023-07-04'),(2,10,0,'2023-07-09'),(2,11,1,'2023-07-02'),(2,11,0,'2023-07-07'),(2,12,0,'2023-07-03'),(2,12,1,'2023-07-06'),(2,13,0,'2023-07-01'),(2,14,1,'2023-07-05'),(2,14,1,'2023-07-08');
 /*!40000 ALTER TABLE `meet` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1013,4 +1014,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-03  9:28:20
+-- Dump completed on 2023-07-03 13:55:50

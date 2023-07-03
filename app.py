@@ -70,8 +70,10 @@ def reserve_food():
             mysql.connection.commit()
             return {'status': 'success'}
         except MySQLdb.IntegrityError as e:
+            print(e)
             return {'status': 'unsuccessful', 'msg': 'already reserved'}, 400
         except Exception as e:
+            print(e)
             return {'status': 'unsuccessful'},401
     if request.method == 'DELETE':
         cur = mysql.connection.cursor()
