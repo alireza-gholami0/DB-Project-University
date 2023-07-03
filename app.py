@@ -35,13 +35,14 @@ def login_check_professor(data) -> bool:
         password = data['password']
         cur = mysql.connection.cursor()
         cur.execute(f'''SELECT * FROM professor
-            WHERE idProfessor = {username} AND password = {password}''')
+            WHERE idProfessor = {username} AND password = "{password}"''')
         account = cur.fetchone()
         if account:
             return True
         else:
             return False
-    except:
+    except Exception as e:
+        print(e)
         return False
 
 
@@ -90,10 +91,11 @@ def exam_schedule():
                     where s.ssn = {username} and s.ssn = she.Student_ssn and e.idExam = she.Exam_idExam ;''')
 
     rv = cur.fetchall()
-    rt = {'desc' : ['seciton id','exam date','exam time'],
-          'data' : rv}
+    rt = {'desc': ['seciton id', 'exam date', 'exam time'],
+          'data': rv}
     print(rt)
     return dumps(rt, default=str)
+
 
 @app.route('/grade_report', methods=['GET'])
 def grade_report():
@@ -108,11 +110,45 @@ def grade_report():
                 where shs.student_ssn = {username} and shs.Section_idSection = s.idSection  and s.Course_idCourse = c.idcourse; ;''')
 
     rv = cur.fetchall()
-    rt = {'desc' : ['course name','section id','student mark','is passed','is removed', 'is signed' ],
-          'data' : rv}
+    rt = {'desc': ['course name', 'section id', 'student mark', 'is passed', 'is removed', 'is signed'],
+          'data': rv}
     print(rt)
     return dumps(rt, default=str)
 
+
+@app.route('/add_section', methods=['PUT'])
+def add_section():
+    data = request.get_json()
+    if not login_check_professor(data):
+        msg = 'Incorrect username / password !'
+        return {'msg': msg}, 401
+    cur = mysql.connection.cursor()
+
+    username = data['username']
+    dep_id = data["dep_id"]
+    term_id = data["term_id"]
+    course_id = data["course_id"]
+    prffesor_id = data["proffesor_id"]
+    exam_date = data["exam_date"]
+    capacity = data["Section_capacity"]
+    exam_time = data["exam_time"]
+    cur.execute(f'''select idDepartment from department where idDepartment = {dep_id} and Manager_idProfessor = {username}
+                ''')
+    id = cur.fetchone()
+    if not id:
+        msg = 'not authorized'
+        return {'msg': msg}, 401
+
+    try:
+        cur.execute(f'''insert into section(Term_idTerm,Course_idCourse,Professor_idProfessor,exam_date,Section_capacity,exam_time) 
+                    values({term_id}, {course_id},{prffesor_id},"{exam_date}",{capacity},"{exam_time}");''')
+
+        mysql.connection.commit()
+        return {'status': 'success'}
+    except Exception as e:
+        print(e)
+        return {'status': 'unsuccessful'}, 400
+
+
 if __name__ == '__main__':
     app.run(debug=True)
-
