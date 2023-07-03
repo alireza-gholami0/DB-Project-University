@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: university
 -- ------------------------------------------------------
@@ -554,6 +554,7 @@ CREATE TABLE `student_has_exam` (
 
 LOCK TABLES `student_has_exam` WRITE;
 /*!40000 ALTER TABLE `student_has_exam` DISABLE KEYS */;
+INSERT INTO `student_has_exam` VALUES (4,1),(10,1),(4,2),(8,2),(10,2),(4,3),(8,3),(10,3),(1,4),(5,4),(10,4),(4,5),(10,5),(1,6),(5,6),(1,7),(5,7),(1,8),(5,8),(1,9),(5,9),(2,10),(4,10),(6,10),(8,10),(2,11),(6,11),(2,12),(6,12),(2,13),(6,13),(2,14),(6,14),(3,15),(7,15),(3,16),(7,16),(3,17),(7,17),(3,18),(7,18),(3,19),(7,19);
 /*!40000 ALTER TABLE `student_has_exam` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -600,7 +601,8 @@ DELIMITER ;;
   ELSE
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient balance';
   END IF;
-  end */;;
+update foodschedule set count = count + 1 where NEW.FoodSchedule_idFoodSchedule = idfoodschedule;
+end */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -654,23 +656,8 @@ DELIMITER ;;
   WHERE NEW.Student_ssn = Student_ssn;
   IF NEW.section_idsection NOT IN (select section_idsection from exam) then
   INSERT INTO exam(exam_date, exam_time, section_idsection) (select exam_date, exam_time, NEW.Section_idSection from section s where s.idsection = NEW.section_idsection);
-END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `update_professor_avg_mark` AFTER INSERT ON `student_has_section` FOR EACH ROW BEGIN 
+	END IF;
+    	INSERT into student_has_exam (select NEW.Student_ssn, idExam from exam where NEW.Section_idSection = exam.Section_idSection);
 IF NEW.professor_mark iS NOT NULL THEN 
 	SET @pid = ( SELECT p.idProfessor
 					FROM
@@ -1026,4 +1013,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-03 12:17:52
+-- Dump completed on 2023-07-03  9:28:20
