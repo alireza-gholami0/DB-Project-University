@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: university
 -- ------------------------------------------------------
@@ -300,6 +300,8 @@ DROP TABLE IF EXISTS `meet`;
 CREATE TABLE `meet` (
   `Student_ssn` int NOT NULL,
   `Section_idSection` int NOT NULL,
+  `presence` tinyint(1) NOT NULL DEFAULT '0',
+  `date` date NOT NULL,
   PRIMARY KEY (`Student_ssn`,`Section_idSection`),
   KEY `fk_Student_has_Section1_Student1_idx` (`Student_ssn`),
   KEY `fk_Meet_Section1_idx` (`Section_idSection`),
@@ -668,6 +670,38 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `update_professor_avg_mark` AFTER INSERT ON `student_has_section` FOR EACH ROW BEGIN 
+IF NEW.professor_mark iS NOT NULL THEN 
+	SET @pid = ( SELECT p.idProfessor
+					FROM
+						`section` as s,
+						`professor` as p
+					WHERE
+						s.Professor_idProfessor = p.idProfessor
+						AND s.idSection = NEW.Section_idSection
+				);
+	UPDATE
+		`professor`
+	SET
+		avg_mark = ( SELECT avg_mark FROM professor_grades WHERE idProfessor = @pid )
+	WHERE
+		idProfessor = @pid;
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `student_has_section_AFTER_UPDATE` AFTER UPDATE ON `student_has_section` FOR EACH ROW BEGIN
 IF NEW.is_signed = 1 AND OLD.is_signed = 0 THEN
 UPDATE student SET 
@@ -682,6 +716,38 @@ update student set
  where ss.Student_ssn = new.Student_ssn and ss.Section_idSection  = s.idSection and s.idSection = c.idCourse and ss.is_signed = 1);
 
 end if	;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `update_professor_avg_mark_AFTER_UPDATE` AFTER UPDATE ON `student_has_section` FOR EACH ROW BEGIN 
+IF NEW.professor_mark iS NOT NULL THEN 
+	SET @pid = ( SELECT p.idProfessor
+					FROM
+						`section` as s,
+						`professor` as p
+					WHERE
+						s.Professor_idProfessor = p.idProfessor
+						AND s.idSection = OLD.Section_idSection
+				);
+	UPDATE
+		`professor`
+	SET
+		avg_mark = ( SELECT avg_mark FROM professor_grades WHERE idProfessor = @pid )
+	WHERE
+		idProfessor = @pid;
+END IF;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -960,4 +1026,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-03  9:24:44
+-- Dump completed on 2023-07-03 12:17:52
